@@ -253,20 +253,19 @@ const [search, setSearch] = useState("");
 
               <td>
 
-                <img
-                  src={`http://localhost:8080/uploads/${product.imageUrl}`}
-                  alt={product.name}
-                  width="70"
-                  height="70"
-                  style={{
-                    objectFit: "cover",
-                    borderRadius: "8px",
-                  }}
-                  onError={(e) => {
-                    e.target.src =
-                      "https://placehold.co/70x70?text=No+Image";
-                  }}
-                />
+               <img
+ src={`https://r24-backend.onrender.com/uploads/${product.imageUrl}`}
+  alt={product.name}
+  width="70"
+  height="70"
+  style={{
+    objectFit: "cover",
+    borderRadius: "8px",
+  }}
+  onError={(e) => {
+    e.target.src = "https://placehold.co/70x70?text=No+Image";
+  }}
+/>
 
               </td>
 
@@ -405,11 +404,19 @@ const [search, setSearch] = useState("");
 
 {!selectedFile && product.imageUrl && (
   <img
-    src={`http://localhost:8080/uploads/${product.imageUrl}`}
-    alt=""
-    width="120"
-    height="120"
-  />
+  src={`${
+    import.meta.env.DEV
+      ? "http://localhost:8080"
+      : "https://r24-backend.onrender.com"
+  }/uploads/${product.imageUrl}`}
+  alt=""
+  width="120"
+  height="120"
+  style={{
+    objectFit: "cover",
+    borderRadius: "8px",
+  }}
+/>
 )}
 
 <label>
