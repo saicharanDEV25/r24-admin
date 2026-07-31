@@ -1,86 +1,186 @@
 import {
-  FaTachometerAlt,
-  FaTags,
-  FaBoxOpen,
-  FaImages,
-  FaCalendarCheck,
-  FaEnvelope,
-  FaSignOutAlt,
-} from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+  LayoutDashboard,
+  Tags,
+  Package,
+  Images,
+  CalendarDays,
+  Mail,
+  LogOut,
+  ChevronRight,
+  ShieldCheck,
+} from "lucide-react";
 
-function Sidebar() {
-  const linkStyle = ({ isActive }) => ({
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    padding: "14px 16px",
-    marginBottom: "10px",
-    color: isActive ? "#000" : "#FFD700",
-    background: isActive ? "#FFD700" : "transparent",
-    textDecoration: "none",
-    borderRadius: "8px",
-    fontWeight: "600",
-  });
+import { NavLink, useNavigate } from "react-router-dom";
+
+import "./Sidebar.css";
+
+const menus = [
+  {
+    title: "Dashboard",
+    icon: <LayoutDashboard size={20} />,
+    path: "/dashboard",
+  },
+  {
+    title: "Categories",
+    icon: <Tags size={20} />,
+    path: "/categories",
+  },
+  {
+    title: "Products",
+    icon: <Package size={20} />,
+    path: "/products",
+  },
+  {
+    title: "Gallery",
+    icon: <Images size={20} />,
+    path: "/gallery",
+  },
+  {
+    title: "Bookings",
+    icon: <CalendarDays size={20} />,
+    path: "/bookings",
+  },
+  {
+    title: "Messages",
+    icon: <Mail size={20} />,
+    path: "/contact-messages",
+  },
+];
+
+function Sidebar({ closeSidebar }) {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("token");
+
+    navigate("/");
+
+  };
+
+  const handleNavClick = () => {
+
+    if (closeSidebar) {
+
+      closeSidebar();
+
+    }
+
+  };
 
   return (
-    <div
-      style={{
-        width: "250px",
-        background: "#000",
-        minHeight: "100vh",
-        padding: "20px",
-      }}
-    >
-      <h2 style={{ color: "#FFD700", marginBottom: "30px" }}>
-        R24 Admin
-      </h2>
 
-      <NavLink to="/dashboard" style={linkStyle}>
-        <FaTachometerAlt />
-        Dashboard
-      </NavLink>
+    <aside className="sidebar">
 
-      <NavLink to="/categories" style={linkStyle}>
-        <FaTags />
-        Categories
-      </NavLink>
+      {/* Logo */}
 
-      <NavLink to="/products" style={linkStyle}>
-        <FaBoxOpen />
-        Products
-      </NavLink>
+      <div className="sidebar-logo">
 
-      <NavLink to="/gallery" style={linkStyle}>
-        <FaImages />
-        Gallery
-      </NavLink>
+        <div className="logo-circle">
 
-      <NavLink to="/bookings" style={linkStyle}>
-        <FaCalendarCheck />
-        Bookings
-      </NavLink>
+          R
 
-      <NavLink to="/contact-messages" style={linkStyle}>
-        <FaEnvelope />
-        Messages
-      </NavLink>
+        </div>
 
-      <div
-        style={{
-          marginTop: "40px",
-          color: "#FFD700",
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-          cursor: "pointer",
-        }}
-      >
-        <FaSignOutAlt />
-        Logout
+        <div className="logo-text">
+
+          <h2>R24 Automotive</h2>
+
+          <span>Premium Admin Panel</span>
+
+        </div>
+
       </div>
-    </div>
+
+      {/* Navigation Starts Here */}
+            <div className="sidebar-menu">
+
+        {menus.map((item) => (
+
+          <NavLink
+            key={item.title}
+            to={item.path}
+            onClick={handleNavClick}
+            className={({ isActive }) =>
+              isActive
+                ? "menu-item active"
+                : "menu-item"
+            }
+          >
+
+            <div className="menu-left">
+
+              {item.icon}
+
+              <span>
+
+                {item.title}
+
+              </span>
+
+            </div>
+
+            <ChevronRight size={18} />
+
+          </NavLink>
+
+        ))}
+
+      </div>
+
+      {/* Bottom Section */}
+            <div className="sidebar-bottom">
+
+        <div className="admin-card">
+
+          <div className="avatar">
+
+            SC
+
+          </div>
+
+          <div className="admin-info">
+
+            <h4>
+
+              Sai Charan
+
+            </h4>
+
+            <p>
+
+              <ShieldCheck size={14} />
+
+              Super Administrator
+
+            </p>
+
+          </div>
+
+        </div>
+
+        <button
+          className="logout-btn"
+          onClick={handleLogout}
+        >
+
+          <LogOut size={18} />
+
+          <span>
+
+            Logout
+
+          </span>
+
+        </button>
+
+      </div>
+
+    </aside>
+
   );
+
 }
 
 export default Sidebar;

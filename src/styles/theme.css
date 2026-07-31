@@ -1,0 +1,31 @@
+:root {
+  --bg: #0b0b0b;
+  --sidebar: #111111;
+  --card: #171717;
+  --gold: #f5b301;
+  --white: #ffffff;
+  --text: #d1d5db;
+  --border: rgba(255,255,255,.08);
+  --radius:18px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,sans-serif;
+    background:var(--bg);
+    color:var(--white);
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}

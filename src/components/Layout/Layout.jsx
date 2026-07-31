@@ -1,18 +1,33 @@
+import { useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Navbar from "../Navbar/Navbar";
+import "./Layout.css";
 
 function Layout({ children }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const closeSidebar = () => setSidebarOpen(false);
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      <Sidebar />
+    <div className="app-layout">
 
-      <div style={{ flex: 1, background: "#111" }}>
-        <Navbar />
-
-        <div style={{ padding: "25px" }}>
-          {children}
-        </div>
+      <div className={`sidebar-wrapper ${sidebarOpen ? "open" : ""}`}>
+        <Sidebar closeSidebar={closeSidebar} />
       </div>
+
+      {sidebarOpen && (
+        <div className="sidebar-overlay" onClick={closeSidebar} />
+      )}
+
+      <div className="main-wrapper">
+        <Navbar onMenuClick={toggleSidebar} />
+
+        <main className="main-content">
+          {children}
+        </main>
+      </div>
+
     </div>
   );
 }

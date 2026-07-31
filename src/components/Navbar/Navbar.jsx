@@ -1,23 +1,212 @@
-function Navbar() {
-  return (
-    <div
-      style={{
-        height: "70px",
-        background: "#1a1a1a",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "0 25px",
-        borderBottom: "1px solid #333",
-      }}
-    >
-      <h2 style={{ color: "#FFD700" }}>Dashboard</h2>
+import {
+  Bell,
+  Search,
+  Menu,
+  Sun,
+  ChevronDown,
+  Settings,
+} from "lucide-react";
 
-      <div style={{ color: "#fff" }}>
-        Welcome, <b style={{ color: "#FFD700" }}>Admin</b>
+import { useState, useEffect } from "react";
+
+import { useLocation } from "react-router-dom";
+
+import "./Navbar.css";
+
+function Navbar({ onMenuClick }) {
+
+  const location = useLocation();
+
+  const [time, setTime] = useState(new Date());
+
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+
+    const interval = setInterval(() => {
+
+      setTime(new Date());
+
+    }, 1000);
+
+    return () => clearInterval(interval);
+
+  }, []);
+
+  const pageTitles = {
+
+    "/dashboard": "Dashboard",
+
+    "/products": "Products",
+
+    "/categories": "Categories",
+
+    "/orders": "Orders",
+
+    "/customers": "Customers",
+
+    "/gallery": "Gallery",
+
+    "/reviews": "Reviews",
+
+    "/contact": "Contact Messages",
+
+    "/settings": "Settings",
+
+    "/profile": "Profile",
+
+  };
+
+  const currentTitle = pageTitles[location.pathname] || "R24 Automotive";
+
+  const currentDate = time.toLocaleDateString("en-IN", {
+
+    weekday: "long",
+
+    day: "numeric",
+
+    month: "long",
+
+    year: "numeric",
+
+  });
+
+  const currentTime = time.toLocaleTimeString("en-IN", {
+
+    hour: "2-digit",
+
+    minute: "2-digit",
+
+    second: "2-digit",
+
+  });
+
+  return (
+
+    <header className="navbar">
+
+      {/* Left Section Starts */}
+            <div className="navbar-left">
+
+        <button
+          className="menu-btn"
+          onClick={onMenuClick}
+        >
+
+          <Menu size={22} />
+
+        </button>
+
+        <div className="navbar-title">
+
+          <h2>
+
+            {currentTitle}
+
+          </h2>
+
+          <p>
+
+            {currentDate}
+
+          </p>
+
+        </div>
+
       </div>
-    </div>
+
+      {/* Center Section Starts */}
+
+      <div className="navbar-center">
+
+        <div className="search-box">
+
+          <Search size={18} />
+
+          <input
+            type="text"
+            placeholder="Search products, orders, customers..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+        </div>
+
+      </div>
+
+      {/* Right Section Starts */}
+            <div className="navbar-right">
+
+        <div className="time-box">
+
+          <span className="time-label">
+
+            Live Time
+
+          </span>
+
+          <h4>
+
+            {currentTime}
+
+          </h4>
+
+        </div>
+
+        <button className="icon-btn">
+
+          <Bell size={20} />
+
+          <span className="notification-dot"></span>
+
+        </button>
+
+        <button className="icon-btn">
+
+          <Settings size={20} />
+
+        </button>
+
+        <button className="icon-btn">
+
+          <Sun size={20} />
+
+        </button>
+
+        <div className="profile-card">
+
+          <div className="profile-avatar">
+
+            SC
+
+          </div>
+
+          <div className="profile-info">
+
+            <h4>
+
+              Sai Charan
+
+            </h4>
+
+            <span>
+
+              Super Administrator
+
+            </span>
+
+          </div>
+
+          <ChevronDown size={18} />
+
+        </div>
+
+      </div>
+
+    </header>
+
   );
+
 }
 
 export default Navbar;

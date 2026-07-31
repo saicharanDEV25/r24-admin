@@ -1,68 +1,162 @@
 import { useEffect, useState } from "react";
+
+import {
+  Plus,
+  Search,
+  Pencil,
+  Trash2,
+  Package,
+  Star,
+  AlertTriangle,
+} from "lucide-react";
+
 import Layout from "../../components/Layout/Layout";
+
 import "./Products.css";
+
 import api from "../../services/api";
 
+/* ==========================================
+            INITIAL PRODUCT
+========================================== */
+
 const initialProduct = {
+
   id: null,
+
   name: "",
+
   category: "",
+
   price: "",
+
   description: "",
+
   stock: "",
+
   featured: false,
+
   active: true,
+
   imageUrl: "",
+
 };
 
+/* ==========================================
+            COMPONENT
+========================================== */
+
 function Products() {
+
+  /* ---------------- STATES ---------------- */
+
   const [products, setProducts] = useState([]);
+
   const [categories, setCategories] = useState([]);
-const [search, setSearch] = useState("");   
+
+  const [loading, setLoading] = useState(true);
+
+  const [search, setSearch] = useState("");
+
+  const [categoryFilter, setCategoryFilter] = useState("");
+
+  const [statusFilter, setStatusFilter] = useState("all");
+
   const [showModal, setShowModal] = useState(false);
 
   const [selectedFile, setSelectedFile] = useState(null);
 
   const [product, setProduct] = useState(initialProduct);
 
+  /* ---------------- EFFECT ---------------- */
+
   useEffect(() => {
+
     loadProducts();
+
     loadCategories();
+
   }, []);
 
+  /* ==========================================
+              LOAD PRODUCTS
+  ========================================== */
+
   const loadProducts = async () => {
+
     try {
+
+      setLoading(true);
+
       const response = await api.get("/products");
+
       setProducts(response.data);
-    } catch (e) {
-      console.log(e);
+
+    } catch (error) {
+
+      console.log(error);
+
+    } finally {
+
+      setLoading(false);
+
     }
+
   };
 
+  /* ==========================================
+              LOAD CATEGORIES
+  ========================================== */
+
   const loadCategories = async () => {
+
     try {
+
       const response = await api.get("/categories");
+
       setCategories(response.data);
-    } catch (e) {
-      console.log(e);
+
+    } catch (error) {
+
+      console.log(error);
+
     }
+
   };
+
+  /* ==========================================
+              HANDLE INPUT
+  ========================================== */
 
   const handleChange = (e) => {
 
     const { name, value, type, checked } = e.target;
 
     setProduct((prev) => ({
+
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+
+      [name]: type === "checkbox"
+        ? checked
+        : value,
+
     }));
+
   };
+
+  /* ==========================================
+              IMAGE SELECT
+  ========================================== */
 
   const handleFileChange = (e) => {
 
     setSelectedFile(e.target.files[0]);
 
   };
+
+  /* ==========================================
+              IMAGE UPLOAD
+  ========================================== */
 
   const uploadImage = async () => {
 
@@ -72,14 +166,27 @@ const [search, setSearch] = useState("");
 
     formData.append("file", selectedFile);
 
-    const response = await api.post("/upload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await api.post(
+      "/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type":
+            "multipart/form-data",
+        },
+      }
+    );
 
     return response.data;
+
   };
+
+  /* ==========================================
+          NEXT PART STARTS HERE
+  ========================================== */
+    /* ==========================================
+              OPEN ADD MODAL
+  ========================================== */
 
   const openAddModal = () => {
 
@@ -91,6 +198,10 @@ const [search, setSearch] = useState("");
 
   };
 
+  /* ==========================================
+              CLOSE MODAL
+  ========================================== */
+
   const closeModal = () => {
 
     setShowModal(false);
@@ -100,44 +211,72 @@ const [search, setSearch] = useState("");
     setProduct(initialProduct);
 
   };
-    const saveProduct = async () => {
-        if (
-  !product.name ||
-  !product.category ||
-  !product.price
-) {
-  alert("Please fill all required fields");
-  return;
-}
+
+  /* ==========================================
+              SAVE PRODUCT
+  ========================================== */
+
+  const saveProduct = async () => {
+
+    if (
+      !product.name ||
+      !product.category ||
+      !product.price
+    ) {
+
+      alert("Please fill all required fields.");
+
+      return;
+
+    }
 
     try {
 
       let imageName = product.imageUrl;
 
       if (selectedFile) {
+
         imageName = await uploadImage();
+
       }
 
       const payload = {
+
         name: product.name,
+
         category: {
+
           id: Number(product.category),
+
         },
+
         price: Number(product.price),
+
         description: product.description,
-        imageUrl: imageName,
+
         stock: Number(product.stock),
+
+        imageUrl: imageName,
+
         featured: product.featured,
+
         active: product.active,
+
       };
 
       if (product.id) {
 
-        await api.put(`/products/${product.id}`, payload);
+        await api.put(
+          `/products/${product.id}`,
+          payload
+        );
 
       } else {
 
-        await api.post("/products", payload);
+        await api.post(
+          "/products",
+          payload
+        );
 
       }
 
@@ -145,28 +284,42 @@ const [search, setSearch] = useState("");
 
       loadProducts();
 
-    } catch (e) {
+    } catch (error) {
 
-      console.log(e);
+      console.log(error);
 
-      alert("Unable to Save Product");
+      alert("Unable to save product.");
 
     }
 
   };
 
+  /* ==========================================
+              EDIT PRODUCT
+  ========================================== */
+
   const editProduct = (item) => {
 
     setProduct({
+
       id: item.id,
+
       name: item.name,
-      category: item.category?.id,
+
+      category: item.category?.id || "",
+
       price: item.price,
+
       description: item.description,
+
       stock: item.stock,
+
       featured: item.featured,
+
       active: item.active,
+
       imageUrl: item.imageUrl,
+
     });
 
     setSelectedFile(null);
@@ -175,10 +328,16 @@ const [search, setSearch] = useState("");
 
   };
 
+  /* ==========================================
+              DELETE PRODUCT
+  ========================================== */
+
   const deleteProduct = async (id) => {
 
     const ok = window.confirm(
+
       "Are you sure you want to delete this product?"
+
     );
 
     if (!ok) return;
@@ -189,139 +348,395 @@ const [search, setSearch] = useState("");
 
       loadProducts();
 
-    } catch (e) {
+    } catch (error) {
 
-      console.log(e);
+      console.log(error);
 
     }
 
   };
 
- const filteredProducts = products.filter((p) =>
-  (p.name || "")
-    .toLowerCase()
-    .includes(search.toLowerCase())
-);
+  /* ==========================================
+              FILTER PRODUCTS
+  ========================================== */
+
+  const filteredProducts = products.filter((item) => {
+
+    const matchSearch = item.name
+      ?.toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchCategory =
+      categoryFilter === ""
+        ? true
+        : item.category?.id === Number(categoryFilter);
+
+    const matchStatus =
+      statusFilter === "all"
+        ? true
+        : statusFilter === "active"
+        ? item.active
+        : !item.active;
+
+    return (
+      matchSearch &&
+      matchCategory &&
+      matchStatus
+    );
+
+  });
+
+  /* ==========================================
+              DASHBOARD STATS
+  ========================================== */
+
+  const totalProducts = products.length;
+
+  const featuredProducts =
+    products.filter(
+      (item) => item.featured
+    ).length;
+
+  const lowStockProducts =
+    products.filter(
+      (item) => item.stock <= 5
+    ).length;
+
+  const activeProducts =
+    products.filter(
+      (item) => item.active
+    ).length;
+
+  /* ==========================================
+              JSX STARTS
+  ========================================== */
+
   return (
+    <>
 
-    <Layout>
+      <div className="products-page-header">
 
-      <h1 className="page-title">Products</h1>
+        <div>
 
-      <div className="products-header">
+          <h1 className="page-title">
+            Products Management
+          </h1>
 
-        <input
-  type="text"
-  placeholder="Search Product..."
-  className="search-box"
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-/>
+          <p className="page-subtitle">
+            Manage all KTM spare parts, accessories & modification products.
+          </p>
+
+        </div>
 
         <button
-          className="add-btn"
+          className="add-product-btn"
           onClick={openAddModal}
         >
-          + Add Product
+          <Plus size={20} />
+          <span>Add Product</span>
         </button>
 
       </div>
 
-      <table className="products-table">
 
-        <thead>
 
-          <tr>
+      <div className="product-stats">
 
-            <th>Image</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Featured</th>
-            <th>Active</th>
-            <th>Action</th>
+        <div className="stat-card">
 
-          </tr>
+          <Package size={34} />
 
-        </thead>
+          <div>
 
-        <tbody>
+            <h2>{totalProducts}</h2>
 
-          {filteredProducts.map((product) => (
-                        <tr key={product.id}>
+            <p>Total Products</p>
 
-              <td>
+          </div>
 
-               <img
- src={`https://r24-backend.onrender.com/uploads/${product.imageUrl}`}
-  alt={product.name}
-  width="70"
-  height="70"
-  style={{
-    objectFit: "cover",
-    borderRadius: "8px",
-  }}
-  onError={(e) => {
-    e.target.src = "https://placehold.co/70x70?text=No+Image";
-  }}
-/>
+        </div>
 
-              </td>
+        <div className="stat-card">
 
-              <td>{product.name}</td>
+          <Star size={34} />
 
-              <td>{product.category?.name}</td>
+          <div>
 
-              <td>₹ {product.price}</td>
+            <h2>{featuredProducts}</h2>
 
-              <td>{product.stock}</td>
+            <p>Featured Products</p>
 
-              <td>{product.featured ? "Yes" : "No"}</td>
+          </div>
 
-              <td>{product.active ? "Yes" : "No"}</td>
+        </div>
 
-              <td>
+        <div className="stat-card">
 
-                <button
-                  style={{
-                    background: "#FFD700",
-                    border: "none",
-                    padding: "8px 12px",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                    fontWeight: "bold",
-                  }}
-                  onClick={() => editProduct(product)}
-                >
-                  Edit
-                </button>
+          <AlertTriangle size={34} />
 
-                <button
-                  style={{
-                    background: "#ff3b30",
-                    color: "#fff",
-                    border: "none",
-                    padding: "8px 12px",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                  }}
-                  onClick={() => deleteProduct(product.id)}
-                >
-                  Delete
-                </button>
+          <div>
 
-              </td>
+            <h2>{lowStockProducts}</h2>
 
-            </tr>
+            <p>Low Stock</p>
+
+          </div>
+
+        </div>
+
+        <div className="stat-card">
+
+          <Package size={34} />
+
+          <div>
+
+            <h2>{activeProducts}</h2>
+
+            <p>Active Products</p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* ==========================================
+                  FILTERS
+      ========================================== */}
+
+      <div className="filter-bar">
+
+        <div className="search-wrapper">
+
+          <Search size={18} />
+
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+        </div>
+
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+
+          <option value="">All Categories</option>
+
+          {categories.map((cat) => (
+
+            <option
+              key={cat.id}
+              value={cat.id}
+            >
+              {cat.name}
+            </option>
 
           ))}
 
-        </tbody>
+        </select>
 
-      </table>
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+
+          <option value="all">All Status</option>
+
+          <option value="active">Active</option>
+
+          <option value="inactive">Inactive</option>
+
+        </select>
+
+      </div>
+
+      {/* ==========================================
+                  PRODUCTS TABLE
+      ========================================== */}
+
+      <div className="table-container">
+
+        <table className="products-table">
+
+          <thead>
+
+            <tr>
+
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Featured</th>
+              <th>Actions</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+                        {loading ? (
+
+              <tr>
+
+                <td
+                  colSpan="8"
+                  style={{
+                    textAlign: "center",
+                    padding: "50px",
+                  }}
+                >
+                  Loading Products...
+                </td>
+
+              </tr>
+
+            ) : filteredProducts.length === 0 ? (
+
+              <tr>
+
+                <td
+                  colSpan="8"
+                  style={{
+                    textAlign: "center",
+                    padding: "50px",
+                  }}
+                >
+                  No Products Found
+                </td>
+
+              </tr>
+
+            ) : (
+
+              filteredProducts.map((item) => (
+
+                <tr key={item.id}>
+
+                  <td>
+
+                    <img
+                     src={item.imageUrl}
+                      alt={item.name}
+                      className="product-image"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://placehold.co/70x70?text=No+Image";
+                      }}
+                    />
+
+                  </td>
+
+                  <td>
+
+                    <strong>
+
+                      {item.name}
+
+                    </strong>
+
+                  </td>
+
+                  <td>
+
+                    {item.category?.name}
+
+                  </td>
+
+                  <td>
+
+                    ₹ {item.price}
+
+                  </td>
+
+                  <td>
+
+                    <span
+                      className={
+                        item.stock <= 5
+                          ? "badge danger"
+                          : "badge success"
+                      }
+                    >
+                      {item.stock}
+                    </span>
+
+                  </td>
+
+                  <td>
+
+                    <span
+                      className={
+                        item.active
+                          ? "badge success"
+                          : "badge danger"
+                      }
+                    >
+                      {item.active ? "Active" : "Inactive"}
+                    </span>
+
+                  </td>
+
+                  <td>
+
+                    <span
+                      className={
+                        item.featured
+                          ? "badge featured"
+                          : "badge normal"
+                      }
+                    >
+                      {item.featured ? "Yes" : "No"}
+                    </span>
+
+                  </td>
+
+                  <td>
+
+                    <div className="action-buttons">
+
+                      <button
+                        className="edit-btn"
+                        onClick={() => editProduct(item)}
+                      >
+
+                        <Pencil size={18} />
+
+                      </button>
+
+                      <button
+                        className="delete-btn"
+                        onClick={() => deleteProduct(item.id)}
+                      >
+
+                        <Trash2 size={18} />
+
+                      </button>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              ))
+
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      {/* ==========================================
+                  MODAL STARTS
+      ========================================== */}
 
       {showModal && (
 
@@ -331,11 +746,12 @@ const [search, setSearch] = useState("");
 
             <h2>
 
-              {product.id ? "Edit Product" : "Add Product"}
+              {product.id
+                ? "Update Product"
+                : "Add Product"}
 
             </h2>
-
-            <input
+                        <input
               type="text"
               name="name"
               placeholder="Product Name"
@@ -374,13 +790,6 @@ const [search, setSearch] = useState("");
               onChange={handleChange}
             />
 
-            <textarea
-              name="description"
-              placeholder="Description"
-              value={product.description}
-              onChange={handleChange}
-            />
-
             <input
               type="number"
               name="stock"
@@ -388,83 +797,83 @@ const [search, setSearch] = useState("");
               value={product.stock}
               onChange={handleChange}
             />
-<input
-  type="file"
-  onChange={handleFileChange}
-/>
 
-{selectedFile && (
-  <img
-    src={URL.createObjectURL(selectedFile)}
-    alt="Preview"
-    width="120"
-    height="120"
-  />
-)}
+            <textarea
+              name="description"
+              placeholder="Description"
+              rows="4"
+              value={product.description}
+              onChange={handleChange}
+            />
 
-{!selectedFile && product.imageUrl && (
-  <img
-  src={`${
-    import.meta.env.DEV
-      ? "http://localhost:8080"
-      : "https://r24-backend.onrender.com"
-  }/uploads/${product.imageUrl}`}
-  alt=""
-  width="120"
-  height="120"
-  style={{
-    objectFit: "cover",
-    borderRadius: "8px",
-  }}
-/>
-)}
+            <input
+              type="file"
+              onChange={handleFileChange}
+            />
 
-<label>
-  <input
-    type="checkbox"
-    name="featured"
-    checked={product.featured}
-    onChange={handleChange}
-  />
-  Featured
-</label>
+            {selectedFile && (
 
-            <label>
-
-              <input
-                type="checkbox"
-                name="active"
-                checked={product.active}
-                onChange={handleChange}
+              <img
+                src={URL.createObjectURL(selectedFile)}
+                alt="Preview"
+                className="preview-image"
               />
 
-              Active
+            )}
 
-            </label>
-                        <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                marginTop: "20px",
-              }}
-            >
+            {!selectedFile && product.imageUrl && (
+
+              <img
+                src={product.imageUrl}
+                alt=""
+                className="preview-image"
+              />
+
+            )}
+
+            <div className="checkbox-group">
+
+              <label>
+
+                <input
+                  type="checkbox"
+                  name="featured"
+                  checked={product.featured}
+                  onChange={handleChange}
+                />
+
+                Featured Product
+
+              </label>
+
+              <label>
+
+                <input
+                  type="checkbox"
+                  name="active"
+                  checked={product.active}
+                  onChange={handleChange}
+                />
+
+                Active Product
+
+              </label>
+
+            </div>
+
+                       <div className="modal-buttons">
 
               <button
-                className="add-btn"
+                className="save-btn"
                 onClick={saveProduct}
               >
-                {product.id ? "Update Product" : "Save Product"}
+                {product.id
+                  ? "Update Product"
+                  : "Save Product"}
               </button>
 
               <button
-                style={{
-                  background: "#666",
-                  color: "#fff",
-                  border: "none",
-                  padding: "10px 18px",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                }}
+                className="cancel-btn"
                 onClick={closeModal}
               >
                 Cancel
@@ -478,7 +887,7 @@ const [search, setSearch] = useState("");
 
       )}
 
-    </Layout>
+    </>
 
   );
 

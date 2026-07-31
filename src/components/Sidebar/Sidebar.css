@@ -1,0 +1,692 @@
+/* ===================================================
+        R24 AUTOMOTIVE PREMIUM SIDEBAR
+=================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ==========================================
+            SIDEBAR
+========================================== */
+
+.sidebar{
+
+    width:290px;
+
+    min-height:100vh;
+
+    background:#0b0f19;
+
+    border-right:1px solid rgba(255,255,255,.06);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    padding:24px;
+
+    position:sticky;
+
+    top:0;
+
+    overflow:hidden;
+
+    z-index:999;
+
+    transition:.35s ease;
+
+}
+
+/* ==========================================
+            PREMIUM GLOW
+========================================== */
+
+.sidebar::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:320px;
+
+    height:320px;
+
+    left:-130px;
+
+    top:-120px;
+
+    border-radius:50%;
+
+    background:rgba(245,158,11,.10);
+
+    filter:blur(80px);
+
+}
+
+.sidebar::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+
+    height:260px;
+
+    right:-120px;
+
+    bottom:-120px;
+
+    border-radius:50%;
+
+    background:rgba(255,193,7,.08);
+
+    filter:blur(80px);
+
+}
+
+/* ==========================================
+            LOGO
+========================================== */
+
+.sidebar-logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    margin-bottom:45px;
+
+    position:relative;
+
+    z-index:5;
+
+}
+
+.logo-circle{
+
+    width:68px;
+
+    height:68px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:30px;
+
+    font-weight:800;
+
+    color:#111827;
+
+    background:linear-gradient(
+    135deg,
+    #FFD700,
+    #F59E0B);
+
+    box-shadow:
+    0 0 18px rgba(255,215,0,.35);
+
+    transition:.35s;
+
+}
+
+.logo-circle:hover{
+
+    transform:rotate(-8deg) scale(1.08);
+
+}
+
+.logo-text h2{
+
+    color:#ffffff;
+
+    font-size:23px;
+
+    font-weight:700;
+
+    margin-bottom:4px;
+
+}
+
+.logo-text span{
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+    letter-spacing:1px;
+
+}/* ==========================================
+            NAVIGATION
+========================================== */
+
+.sidebar-menu{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    position:relative;
+
+    z-index:5;
+
+}
+
+.menu-item{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:16px 18px;
+
+    border-radius:18px;
+
+    text-decoration:none;
+
+    color:#d1d5db;
+
+    border:1px solid transparent;
+
+    transition:all .35s ease;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.menu-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.menu-left span{
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+.menu-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:15%;
+
+    width:4px;
+
+    height:70%;
+
+    border-radius:10px;
+
+    background:#f59e0b;
+
+    transform:scaleY(0);
+
+    transition:.35s;
+
+}
+
+.menu-item:hover{
+
+    background:#161b22;
+
+    color:#f59e0b;
+
+    border-color:rgba(245,158,11,.15);
+
+    transform:translateX(6px);
+
+}
+
+.menu-item:hover::before{
+
+    transform:scaleY(1);
+
+}
+
+.menu-item.active{
+
+    background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+    );
+
+    color:#111827;
+
+    font-weight:700;
+
+    box-shadow:
+    0 10px 30px rgba(245,158,11,.25);
+
+}
+
+.menu-item.active::before{
+
+    background:#111827;
+
+    transform:scaleY(1);
+
+}
+
+.menu-item svg{
+
+    transition:.35s;
+
+}
+
+.menu-item:hover svg{
+
+    transform:scale(1.15);
+
+}
+
+.menu-item.active svg{
+
+    color:#111827;
+
+}
+/* ==========================================
+            SIDEBAR BOTTOM
+========================================== */
+
+.sidebar-bottom{
+
+    position:relative;
+
+    z-index:5;
+
+    margin-top:30px;
+
+}
+
+/* ==========================================
+            ADMIN CARD
+========================================== */
+
+.admin-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    backdrop-filter:blur(15px);
+
+    transition:.35s ease;
+
+    margin-bottom:20px;
+
+}
+
+.admin-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:rgba(245,158,11,.25);
+
+    box-shadow:
+    0 15px 35px rgba(245,158,11,.12);
+
+}
+
+.avatar{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #FFD700,
+        #F59E0B
+    );
+
+    color:#111827;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    flex-shrink:0;
+
+}
+
+.admin-info{
+
+    flex:1;
+
+}
+
+.admin-info h4{
+
+    color:#ffffff;
+
+    font-size:16px;
+
+    margin-bottom:6px;
+
+}
+
+.admin-info p{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+}
+
+/* ==========================================
+            LOGOUT BUTTON
+========================================== */
+
+.logout-btn{
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:16px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:#ffffff;
+
+    background:#1f2937;
+
+    transition:.35s ease;
+
+}
+
+.logout-btn:hover{
+
+    background:linear-gradient(
+        135deg,
+        #ef4444,
+        #dc2626
+    );
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 15px 35px rgba(239,68,68,.25);
+
+}
+/* ==========================================
+            SCROLLBAR
+========================================== */
+
+.sidebar::-webkit-scrollbar{
+
+    width:6px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:#f59e0b;
+
+    border-radius:20px;
+
+}
+
+/* ==========================================
+            DESKTOP
+========================================== */
+
+@media (min-width:993px){
+
+    .sidebar{
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* ==========================================
+            TABLET
+========================================== */
+
+@media (max-width:992px){
+
+    .sidebar{
+
+        width:270px;
+
+        height:100vh;
+
+        position:fixed;
+
+        left:0;
+
+        top:0;
+
+        transform:translateX(-100%);
+
+        transition:transform .35s ease;
+
+        z-index:1200;
+
+    }
+
+    .sidebar-wrapper.open .sidebar{
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* ==========================================
+            MOBILE
+========================================== */
+
+@media (max-width:768px){
+
+    .sidebar{
+
+        width:280px;
+
+        padding:20px;
+
+    }
+
+    .logo-circle{
+
+        width:58px;
+
+        height:58px;
+
+        font-size:24px;
+
+    }
+
+    .logo-text h2{
+
+        font-size:20px;
+
+    }
+
+    .menu-item{
+
+        padding:15px;
+
+    }
+
+    .menu-left span{
+
+        font-size:14px;
+
+    }
+
+}
+
+/* ==========================================
+            SMALL MOBILE
+========================================== */
+
+@media (max-width:480px){
+
+    .sidebar{
+
+        width:85%;
+
+    }
+
+}
+
+/* ==========================================
+            OVERLAY
+========================================== */
+
+.sidebar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(2px);
+
+    z-index:1100;
+
+}
+
+/* ==========================================
+            LAYOUT
+========================================== */
+
+.app-layout{
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:#0d1117;
+
+}
+
+.sidebar-wrapper{
+
+    flex-shrink:0;
+
+}
+
+.main-wrapper{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-width:0;
+
+}
+
+.main-content{
+
+    flex:1;
+
+    overflow-x:hidden;
+
+}
+
+/* ==========================================
+            DESKTOP SIDEBAR
+========================================== */
+
+@media (min-width:993px){
+
+    .sidebar-wrapper{
+
+        width:290px;
+
+    }
+
+}
+
+/* ==========================================
+            TABLET & MOBILE
+========================================== */
+
+@media (max-width:992px){
+
+    .sidebar-wrapper{
+
+        width:0;
+
+    }
+
+}
