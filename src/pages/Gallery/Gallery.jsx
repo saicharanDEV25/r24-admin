@@ -196,7 +196,7 @@ function Gallery() {
                 <td>
 
                   <img
-                    src={`http://localhost:8080/uploads/${item.beforeImageUrl}`}
+                    src={`https://r24-backend.onrender.com/uploads/${item.beforeImageUrl}`}
                     alt=""
                     className="gallery-image"
                   />
@@ -206,7 +206,7 @@ function Gallery() {
                 <td>
 
                   <img
-                    src={`http://localhost:8080/uploads/${item.afterImageUrl}`}
+                   src={`https://r24-backend.onrender.com/uploads/${item.afterImageUrl}`}
                     alt=""
                     className="gallery-image"
                   />
@@ -307,7 +307,7 @@ function Gallery() {
                 gallery.beforeImageUrl && (
 
                   <img
-                    src={`http://localhost:8080/uploads/${gallery.beforeImageUrl}`}
+                   src={`https://r24-backend.onrender.com/uploads/${gallery.beforeImageUrl}`}
                     alt=""
                     className="preview-image"
                   />
@@ -341,7 +341,7 @@ function Gallery() {
                 gallery.afterImageUrl && (
 
                   <img
-                    src={`http://localhost:8080/uploads/${gallery.afterImageUrl}`}
+                    src={`https://r24-backend.onrender.com/uploads/${gallery.afterImageUrl}`}
                     alt=""
                     className="preview-image"
                   />
