@@ -3,22 +3,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Products from "../pages/Products/Products";
+import Categories from "../pages/Categories/Categories";
 import Gallery from "../pages/Gallery/Gallery";
+import Reviews from "../pages/Reviews/Reviews";
+import ChatLeads from "../pages/ChatLeads/ChatLeads";
+import Bookings from "../pages/Bookings/Bookings";
+import ContactMessages from "../pages/ContactMessages/ContactMessages";
+import Settings from "../pages/Settings/Settings";
 
 import Layout from "../components/Layout/Layout";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
-
-function Categories() {
-  return <h1>Categories</h1>;
-}
-
-function Bookings() {
-  return <h1>Bookings</h1>;
-}
-
-function ContactMessages() {
-  return <h1>Contact Messages</h1>;
-}
 
 function NotFound() {
   return <h1>404 Not Found</h1>;
@@ -76,6 +70,28 @@ export default function AppRoutes() {
         />
 
         <Route
+          path="/reviews"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Reviews />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/chat-leads"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ChatLeads />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/bookings"
           element={
             <ProtectedRoute>
@@ -92,6 +108,17 @@ export default function AppRoutes() {
             <ProtectedRoute>
               <Layout>
                 <ContactMessages />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Settings />
               </Layout>
             </ProtectedRoute>
           }
