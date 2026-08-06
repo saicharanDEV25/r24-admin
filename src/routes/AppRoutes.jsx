@@ -10,6 +10,7 @@ import ChatLeads from "../pages/ChatLeads/ChatLeads";
 import Bookings from "../pages/Bookings/Bookings";
 import ContactMessages from "../pages/ContactMessages/ContactMessages";
 import Settings from "../pages/Settings/Settings";
+import Analytics from "../pages/Analytics/Analytics";
 
 import Layout from "../components/Layout/Layout";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
@@ -108,6 +109,17 @@ export default function AppRoutes() {
             <ProtectedRoute>
               <Layout>
                 <ContactMessages />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Analytics />
               </Layout>
             </ProtectedRoute>
           }

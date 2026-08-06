@@ -9,6 +9,7 @@ import {
   MessageSquare,
   CalendarDays,
   Mail,
+  BarChart3,
   LogOut,
   ChevronRight,
   ShieldCheck,
@@ -60,6 +61,11 @@ const menus = [
     title: "Messages",
     icon: <Mail size={20} />,
     path: "/contact-messages",
+  },
+  {
+    title: "Analytics",
+    icon: <BarChart3 size={20} />,
+    path: "/analytics",
   },
 ];
 
