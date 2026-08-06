@@ -60,6 +60,22 @@
 
     overflow-x:hidden;
 
+    animation:main-content-fade-in .35s ease;
+
+}
+
+@keyframes main-content-fade-in{
+
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
 }
 
 /* ==========================================

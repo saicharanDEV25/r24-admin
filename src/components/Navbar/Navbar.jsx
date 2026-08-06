@@ -3,19 +3,26 @@ import {
   Search,
   Menu,
   Sun,
+  Moon,
   ChevronDown,
   Settings,
 } from "lucide-react";
 
 import { useState, useEffect } from "react";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { useTheme } from "../../context/ThemeContext";
 
 import "./Navbar.css";
 
 function Navbar({ onMenuClick }) {
 
   const location = useLocation();
+
+  const navigate = useNavigate();
+
+  const { theme, toggleTheme } = useTheme();
 
   const [time, setTime] = useState(new Date());
 
@@ -161,15 +168,23 @@ function Navbar({ onMenuClick }) {
 
         </button>
 
-        <button className="icon-btn">
+        <button
+          className="icon-btn"
+          onClick={() => navigate("/settings")}
+          title="Settings"
+        >
 
           <Settings size={20} />
 
         </button>
 
-        <button className="icon-btn">
+        <button
+          className="icon-btn"
+          onClick={toggleTheme}
+          title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        >
 
-          <Sun size={20} />
+          {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
 
         </button>
 

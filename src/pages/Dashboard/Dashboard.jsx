@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 
 import {
   FaBoxOpen,
-  FaTools,
+  FaCalendarCheck,
   FaImages,
   FaTags,
+  FaStar,
+  FaEnvelope,
+  FaCommentDots,
 } from "react-icons/fa";
 
 import {
@@ -101,11 +104,17 @@ function Dashboard() {
 
     totalProducts: 0,
 
-    totalServices: 0,
+    totalBookings: 0,
 
     totalGallery: 0,
 
     totalCategories: 0,
+
+    totalReviews: 0,
+
+    totalMessages: 0,
+
+    totalChatLeads: 0,
 
     recentProducts: [],
 
@@ -131,14 +140,23 @@ function Dashboard() {
         totalProducts:
           data.totalProducts || 0,
 
-        totalServices:
-          data.totalServices || 0,
+        totalBookings:
+          data.totalBookings || 0,
 
         totalGallery:
-          data.totalGallery || 0,
+          data.totalGalleryImages || 0,
 
         totalCategories:
           data.totalCategories || 0,
+
+        totalReviews:
+          data.totalReviews || 0,
+
+        totalMessages:
+          data.totalMessages || 0,
+
+        totalChatLeads:
+          data.totalChatLeads || 0,
 
         recentProducts:
           data.recentProducts || [],
@@ -295,7 +313,7 @@ function Dashboard() {
 
         </motion.div>
 
-        {/* Services Card */}
+        {/* Bookings Card */}
 
         <motion.div
           className="dashboard-card"
@@ -310,22 +328,22 @@ function Dashboard() {
         >
 
           <div className="card-icon blue">
-            <FaTools />
+            <FaCalendarCheck />
           </div>
 
           <div className="card-content">
 
             <h2>
               <CountUp
-                end={dashboard.totalServices}
+                end={dashboard.totalBookings}
                 duration={2}
               />
             </h2>
 
-            <span>Total Services</span>
+            <span>Total Bookings</span>
 
             <p>
-              Premium Services
+              Service Bookings
             </p>
 
           </div>
@@ -418,6 +436,135 @@ function Dashboard() {
           <small>
 
             Active
+
+          </small>
+
+        </motion.div>
+
+        {/* Reviews Card */}
+
+        <motion.div
+          className="dashboard-card"
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          custom={4}
+          whileHover={{
+            y: -8,
+            scale: 1.03,
+          }}
+        >
+
+          <div className="card-icon gold">
+            <FaStar />
+          </div>
+
+          <div className="card-content">
+
+            <h2>
+              <CountUp
+                end={dashboard.totalReviews}
+                duration={2}
+              />
+            </h2>
+
+            <span>Customer Reviews</span>
+
+            <p>
+              Submitted Reviews
+            </p>
+
+          </div>
+
+          <small>
+
+            Live
+
+          </small>
+
+        </motion.div>
+
+        {/* Messages Card */}
+
+        <motion.div
+          className="dashboard-card"
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          custom={5}
+          whileHover={{
+            y: -8,
+            scale: 1.03,
+          }}
+        >
+
+          <div className="card-icon blue">
+            <FaEnvelope />
+          </div>
+
+          <div className="card-content">
+
+            <h2>
+              <CountUp
+                end={dashboard.totalMessages}
+                duration={2}
+              />
+            </h2>
+
+            <span>Contact Messages</span>
+
+            <p>
+              From Contact Form
+            </p>
+
+          </div>
+
+          <small>
+
+            Live
+
+          </small>
+
+        </motion.div>
+
+        {/* Chat Leads Card */}
+
+        <motion.div
+          className="dashboard-card"
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          custom={6}
+          whileHover={{
+            y: -8,
+            scale: 1.03,
+          }}
+        >
+
+          <div className="card-icon green">
+            <FaCommentDots />
+          </div>
+
+          <div className="card-content">
+
+            <h2>
+              <CountUp
+                end={dashboard.totalChatLeads}
+                duration={2}
+              />
+            </h2>
+
+            <span>AI Chat Enquiries</span>
+
+            <p>
+              Captured by Chatbot
+            </p>
+
+          </div>
+
+          <small>
+
+            Live
 
           </small>
 
@@ -582,7 +729,7 @@ function Dashboard() {
                 >
 
                   <img
-                    src={`http://localhost:8080/uploads/${item.beforeImageUrl}`}
+                    src={item.beforeImageUrl}
                     alt={item.title}
                   />
 

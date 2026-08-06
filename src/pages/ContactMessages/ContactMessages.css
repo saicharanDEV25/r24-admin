@@ -1,0 +1,194 @@
+.contact-messages-header{
+    margin-bottom:28px;
+}
+
+.page-title{
+    color:#ffffff;
+    font-size:34px;
+    font-weight:700;
+    margin:0;
+}
+
+.page-subtitle{
+    color:#94a3b8;
+    margin-top:8px;
+    font-size:15px;
+}
+
+.contact-filter{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:22px;
+}
+
+.contact-filter button{
+    background:#161b22;
+    border:1px solid rgba(255,255,255,.08);
+    color:#d1d5db;
+    padding:10px 20px;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:13px;
+    transition:.3s;
+}
+
+.contact-filter button:hover{
+    border-color:rgba(245,158,11,.4);
+}
+
+.contact-filter button.active{
+    background:linear-gradient(135deg,#FFD700,#F59E0B);
+    color:#111827;
+    border-color:transparent;
+}
+
+.messages-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:20px;
+}
+
+.messages-empty{
+    grid-column:1 / -1;
+    text-align:center;
+    color:#94a3b8;
+    padding:50px 0;
+}
+
+.message-card{
+    background:#161b22;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    padding:22px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    transition:.3s ease;
+}
+
+.message-card.replied{
+    border-color:rgba(34,197,94,.25);
+}
+
+.message-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+}
+
+.message-card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.message-card-header h4{
+    color:#ffffff;
+    font-size:16px;
+    margin-bottom:4px;
+}
+
+.message-card-header span{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.reply-badge{
+    padding:5px 12px;
+    border-radius:30px;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    white-space:nowrap;
+}
+
+.reply-badge.pending{
+    background:rgba(245,158,11,.12);
+    color:#f59e0b;
+}
+
+.reply-badge.done{
+    background:rgba(34,197,94,.12);
+    color:#22c55e;
+}
+
+.message-text{
+    color:#d1d5db;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.message-contact-info{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    font-size:13px;
+}
+
+.message-contact-info a{
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+.message-contact-info a:hover{
+    text-decoration:underline;
+}
+
+.message-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:6px;
+}
+
+.whatsapp-reply-btn{
+    background:#25d366;
+    color:#ffffff;
+    text-decoration:none;
+    padding:9px 16px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.whatsapp-reply-btn:hover{
+    filter:brightness(1.1);
+    transform:translateY(-2px);
+}
+
+.toggle-replied-btn{
+    background:#1f2937;
+    color:#ffffff;
+    border:none;
+    padding:9px 16px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.toggle-replied-btn:hover{
+    background:#374151;
+}
+
+.delete-btn{
+    background:rgba(239,68,68,.12);
+    color:#ef4444;
+    border:none;
+    padding:9px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:13px;
+    transition:.3s;
+}
+
+.delete-btn:hover{
+    background:#ef4444;
+    color:#ffffff;
+    transform:translateY(-2px);
+}

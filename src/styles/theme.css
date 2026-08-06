@@ -29,3 +29,183 @@ a{
     text-decoration:none;
     color:inherit;
 }
+
+/* ======================================================
+   SHARED STATUS BADGES
+====================================================== */
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.badge.success{
+    background:rgba(34,197,94,.12);
+    color:#22c55e;
+}
+
+.badge.danger{
+    background:rgba(239,68,68,.14);
+    color:#ef4444;
+}
+
+.badge.featured{
+    background:rgba(245,158,11,.14);
+    color:var(--gold);
+}
+
+.badge.normal{
+    background:rgba(148,163,184,.14);
+    color:#94a3b8;
+}
+
+/* ======================================================
+   LIGHT THEME OVERRIDES
+   (targets the shared surfaces/classes used across every
+   admin page — sidebar, top navbar, page headers, tables,
+   dashboard cards, settings cards, modals)
+====================================================== */
+
+[data-theme="light"] body{
+    background:#f4f5f7;
+    color:#111827;
+}
+
+[data-theme="light"] .app-layout{
+    background:#f4f5f7;
+}
+
+[data-theme="light"] .sidebar{
+    background:#ffffff;
+    border-right:1px solid rgba(0,0,0,.08);
+}
+
+[data-theme="light"] .sidebar::before,
+[data-theme="light"] .sidebar::after{
+    opacity:.4;
+}
+
+[data-theme="light"] .logo-text h2{
+    color:#111827;
+}
+
+[data-theme="light"] .menu-item{
+    color:#4b5563;
+}
+
+[data-theme="light"] .menu-item:hover{
+    background:#fef3c7;
+    color:#b45309;
+}
+
+[data-theme="light"] .admin-card{
+    background:#f9fafb;
+    border-color:rgba(0,0,0,.08);
+}
+
+[data-theme="light"] .admin-info h4{
+    color:#111827;
+}
+
+[data-theme="light"] .logout-btn{
+    background:#f3f4f6;
+    color:#111827;
+}
+
+[data-theme="light"] .navbar{
+    background:rgba(255,255,255,.92);
+    border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+[data-theme="light"] .navbar-title h2,
+[data-theme="light"] .navbar-title p,
+[data-theme="light"] .page-title{
+    color:#111827;
+}
+
+[data-theme="light"] .page-subtitle,
+[data-theme="light"] .navbar-title p{
+    color:#6b7280;
+}
+
+[data-theme="light"] .search-box,
+[data-theme="light"] .time-box,
+[data-theme="light"] .icon-btn,
+[data-theme="light"] .profile-card{
+    background:#f3f4f6 !important;
+    color:#111827;
+}
+
+[data-theme="light"] .search-box input{
+    color:#111827;
+}
+
+[data-theme="light"] .table-container{
+    background:#ffffff;
+    border-color:rgba(0,0,0,.08);
+}
+
+[data-theme="light"] .table-container table thead,
+[data-theme="light"] .table-container thead{
+    background:#f9fafb;
+}
+
+[data-theme="light"] .table-container table td,
+[data-theme="light"] .table-container table th,
+[data-theme="light"] .table-container td,
+[data-theme="light"] .table-container th{
+    color:#111827;
+    border-top-color:rgba(0,0,0,.06);
+}
+
+[data-theme="light"] .table-container tbody tr:hover{
+    background:rgba(245,158,11,.06);
+}
+
+[data-theme="light"] .dashboard-card,
+[data-theme="light"] .dashboard-section,
+[data-theme="light"] .settings-card,
+[data-theme="light"] .message-card,
+[data-theme="light"] .gallery-modal,
+[data-theme="light"] .modal-content,
+[data-theme="light"] .product-popup{
+    background:#ffffff;
+    border-color:rgba(0,0,0,.08);
+    color:#111827;
+}
+
+[data-theme="light"] .dashboard-card h2,
+[data-theme="light"] .dashboard-card span,
+[data-theme="light"] .settings-card h4,
+[data-theme="light"] .message-card-header h4{
+    color:#111827;
+}
+
+[data-theme="light"] .dashboard-card p,
+[data-theme="light"] .recent-item,
+[data-theme="light"] .gallery-card{
+    color:#4b5563;
+}
+
+[data-theme="light"] .recent-item,
+[data-theme="light"] .empty-box{
+    background:#f9fafb;
+}
+
+[data-theme="light"] input,
+[data-theme="light"] select,
+[data-theme="light"] textarea{
+    background:#f9fafb;
+    color:#111827;
+    border-color:rgba(0,0,0,.1) !important;
+}
+
+[data-theme="light"] .theme-btn,
+[data-theme="light"] .toggle-slider{
+    background:#e5e7eb;
+}
