@@ -83,15 +83,24 @@ function ContactMessages() {
 
       <div className="messages-grid">
         {loading ? (
-          <p className="messages-empty">Loading messages...</p>
+          Array.from({ length: 4 }).map((_, i) => (
+            <div className="message-card glass-card skeleton-card" key={i}>
+              <span className="skeleton" style={{ width: "50%", height: 16, marginBottom: 12 }} />
+              <span className="skeleton" style={{ width: "90%", height: 12, marginBottom: 8 }} />
+              <span className="skeleton" style={{ width: "70%", height: 12 }} />
+            </div>
+          ))
         ) : filteredMessages.length === 0 ? (
           <p className="messages-empty">No messages found.</p>
         ) : (
-          filteredMessages.map((msg) => (
+          filteredMessages.map((msg, index) => (
             <div
               className={
-                msg.replied ? "message-card replied" : "message-card"
+                msg.replied
+                  ? "message-card glass-card replied stagger-in"
+                  : "message-card glass-card stagger-in"
               }
+              style={{ animationDelay: `${index * 0.05}s` }}
               key={msg.id}
             >
               <div className="message-card-header">

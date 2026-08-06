@@ -114,7 +114,7 @@ function Sidebar({ closeSidebar }) {
 
   return (
 
-    <aside className="sidebar">
+    <aside className="sidebar glass-card">
 
       {/* Logo */}
 
@@ -179,7 +179,7 @@ function Sidebar({ closeSidebar }) {
       {/* Bottom Section */}
             <div className="sidebar-bottom">
 
-        <div className="admin-card">
+        <div className="admin-card glass-card">
 
           <div className="avatar">
 

@@ -40,7 +40,7 @@ function Settings() {
       </div>
 
       <div className="settings-grid">
-        <div className="settings-card">
+        <div className="settings-card glass-card">
           <h3>Admin Profile</h3>
 
           <div className="settings-profile-row">
@@ -58,7 +58,7 @@ function Settings() {
           </button>
         </div>
 
-        <div className="settings-card">
+        <div className="settings-card glass-card">
           <h3>Appearance</h3>
           <p className="settings-card-desc">
             Switch between dark and light mode across the admin panel.
@@ -81,7 +81,7 @@ function Settings() {
           </div>
         </div>
 
-        <div className="settings-card">
+        <div className="settings-card glass-card">
           <h3>Notifications</h3>
           <p className="settings-card-desc">
             Choose what shows a badge/alert in the sidebar.
