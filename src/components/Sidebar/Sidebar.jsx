@@ -122,7 +122,7 @@ function Sidebar({ closeSidebar }) {
 
         <div className="logo-circle">
 
-          R
+          R24
 
         </div>
 
@@ -183,7 +183,7 @@ function Sidebar({ closeSidebar }) {
 
           <div className="avatar">
 
-            SC
+            A
 
           </div>
 
@@ -191,7 +191,7 @@ function Sidebar({ closeSidebar }) {
 
             <h4>
 
-              Sai Charan
+              Alex
 
             </h4>
 

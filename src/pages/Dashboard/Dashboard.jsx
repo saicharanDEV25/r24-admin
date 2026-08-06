@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import {
@@ -25,6 +26,8 @@ import "./Dashboard.css";
 =========================================== */
 
 function Dashboard() {
+
+  const navigate = useNavigate();
 
   const [dashboard, setDashboard] = useState({
 
@@ -208,6 +211,8 @@ function Dashboard() {
             y: -8,
             scale: 1.03,
           }}
+          onClick={() => navigate("/products")}
+          style={{ cursor: "pointer" }}
         >
 
           <div className="card-icon gold">
@@ -251,6 +256,8 @@ function Dashboard() {
             y: -8,
             scale: 1.03,
           }}
+          onClick={() => navigate("/bookings")}
+          style={{ cursor: "pointer" }}
         >
 
           <div className="card-icon blue">
@@ -293,6 +300,8 @@ function Dashboard() {
             y: -8,
             scale: 1.03,
           }}
+          onClick={() => navigate("/gallery")}
+          style={{ cursor: "pointer" }}
         >
 
           <div className="card-icon green">
@@ -336,6 +345,8 @@ function Dashboard() {
             y: -8,
             scale: 1.03,
           }}
+          onClick={() => navigate("/categories")}
+          style={{ cursor: "pointer" }}
         >
 
           <div className="card-icon orange">
@@ -379,6 +390,8 @@ function Dashboard() {
             y: -8,
             scale: 1.03,
           }}
+          onClick={() => navigate("/reviews")}
+          style={{ cursor: "pointer" }}
         >
 
           <div className="card-icon gold">
@@ -422,6 +435,8 @@ function Dashboard() {
             y: -8,
             scale: 1.03,
           }}
+          onClick={() => navigate("/contact-messages")}
+          style={{ cursor: "pointer" }}
         >
 
           <div className="card-icon blue">
@@ -465,6 +480,8 @@ function Dashboard() {
             y: -8,
             scale: 1.03,
           }}
+          onClick={() => navigate("/chat-leads")}
+          style={{ cursor: "pointer" }}
         >
 
           <div className="card-icon green">
