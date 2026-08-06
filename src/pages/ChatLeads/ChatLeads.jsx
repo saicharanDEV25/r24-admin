@@ -47,7 +47,7 @@ function ChatLeads() {
         </p>
       </div>
 
-      <div className="table-container">
+      <div className="table-container glass-card">
         <table className="chat-leads-table">
           <thead>
             <tr>
@@ -63,11 +63,17 @@ function ChatLeads() {
 
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="7" style={{ textAlign: "center", padding: "50px" }}>
-                  Loading Enquiries...
-                </td>
-              </tr>
+              Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i}>
+                  <td><span className="skeleton" style={{ width: "60%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 90, height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 70, height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 80, height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: "70%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 100, height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 60, height: 30, borderRadius: 8 }} /></td>
+                </tr>
+              ))
             ) : leads.length === 0 ? (
               <tr>
                 <td colSpan="7" style={{ textAlign: "center", padding: "50px" }}>

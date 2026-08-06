@@ -13,6 +13,7 @@ function Gallery() {
   };
 
   const [galleryList, setGalleryList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [gallery, setGallery] = useState(initialGallery);
 
   const [beforeFile, setBeforeFile] = useState(null);
@@ -27,10 +28,13 @@ function Gallery() {
 
   const loadGallery = async () => {
     try {
+      setLoading(true);
       const response = await api.get("/gallery");
       setGalleryList(response.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -172,7 +176,7 @@ function Gallery() {
 
         </div>
 
-        <table className="gallery-table">
+        <table className="gallery-table glass-card">
 
           <thead>
 
@@ -189,7 +193,25 @@ function Gallery() {
 
           <tbody>
 
-            {galleryList.map((item) => (
+            {loading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <tr key={i}>
+                  <td><span className="skeleton" style={{ width: 90, height: 60, borderRadius: 10 }} /></td>
+                  <td><span className="skeleton" style={{ width: 90, height: 60, borderRadius: 10 }} /></td>
+                  <td><span className="skeleton" style={{ width: "70%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: "85%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 50, height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 90, height: 30, borderRadius: 8 }} /></td>
+                </tr>
+              ))
+            ) : galleryList.length === 0 ? (
+              <tr>
+                <td colSpan="6" style={{ textAlign: "center", padding: "50px" }}>
+                  No Gallery Items Found
+                </td>
+              </tr>
+            ) : (
+            galleryList.map((item) => (
 
               <tr key={item.id}>
 
@@ -239,7 +261,7 @@ function Gallery() {
 
               </tr>
 
-            ))}
+            )))}
 
           </tbody>
 
@@ -248,7 +270,7 @@ function Gallery() {
 
           <div className="modal-overlay">
 
-            <div className="gallery-modal">
+            <div className="gallery-modal glass-card">
 
               <h2>
                 {editingId ? "Edit Gallery" : "Add Gallery"}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import {
@@ -16,83 +16,9 @@ import {
 } from "react-icons/md";
 
 import { getDashboardData } from "../../services/dashboardService";
+import CountUp from "../../components/CountUp/CountUp";
 
 import "./Dashboard.css";
-
-/* ===========================================
-      Custom CountUp
-=========================================== */
-
-function CountUp({
-  end = 0,
-  duration = 2,
-  separator = false,
-}) {
-
-  const [count, setCount] = useState(0);
-
-  const frameRef = useRef(null);
-
-  useEffect(() => {
-
-    const target = Number(end) || 0;
-
-    const durationMs = duration * 1000;
-
-    let startTime = null;
-
-    const animate = (time) => {
-
-      if (!startTime) startTime = time;
-
-      const progress = Math.min(
-        (time - startTime) / durationMs,
-        1
-      );
-
-      setCount(
-        Math.floor(progress * target)
-      );
-
-      if (progress < 1) {
-
-        frameRef.current =
-          requestAnimationFrame(animate);
-
-      } else {
-
-        setCount(target);
-
-      }
-
-    };
-
-    frameRef.current =
-      requestAnimationFrame(animate);
-
-    return () => {
-
-      if (frameRef.current) {
-
-        cancelAnimationFrame(
-          frameRef.current
-        );
-
-      }
-
-    };
-
-  }, [end, duration]);
-
-  return (
-    <>
-      {separator
-        ? count.toLocaleString("en-IN")
-        : count}
-    </>
-  );
-
-}
 
 /* ===========================================
           Dashboard
@@ -212,7 +138,7 @@ function Dashboard() {
 
       <motion.div
 
-        className="dashboard-banner"
+        className="dashboard-banner glass-card"
 
         initial={{
           opacity: 0,
@@ -273,7 +199,7 @@ function Dashboard() {
         {/* Products Card */}
 
         <motion.div
-          className="dashboard-card"
+          className="dashboard-card glass-card"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
@@ -316,7 +242,7 @@ function Dashboard() {
         {/* Bookings Card */}
 
         <motion.div
-          className="dashboard-card"
+          className="dashboard-card glass-card"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
@@ -358,7 +284,7 @@ function Dashboard() {
                 {/* Gallery Card */}
 
         <motion.div
-          className="dashboard-card"
+          className="dashboard-card glass-card"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
@@ -401,7 +327,7 @@ function Dashboard() {
         {/* Categories Card */}
 
         <motion.div
-          className="dashboard-card"
+          className="dashboard-card glass-card"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
@@ -444,7 +370,7 @@ function Dashboard() {
         {/* Reviews Card */}
 
         <motion.div
-          className="dashboard-card"
+          className="dashboard-card glass-card"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
@@ -487,7 +413,7 @@ function Dashboard() {
         {/* Messages Card */}
 
         <motion.div
-          className="dashboard-card"
+          className="dashboard-card glass-card"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
@@ -530,7 +456,7 @@ function Dashboard() {
         {/* Chat Leads Card */}
 
         <motion.div
-          className="dashboard-card"
+          className="dashboard-card glass-card"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
@@ -582,7 +508,7 @@ function Dashboard() {
         ============================ */}
 
         <motion.div
-          className="dashboard-section"
+          className="dashboard-section glass-card"
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
@@ -686,7 +612,7 @@ function Dashboard() {
         ============================ */}
 
         <motion.div
-          className="dashboard-section"
+          className="dashboard-section glass-card"
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}

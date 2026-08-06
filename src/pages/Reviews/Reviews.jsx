@@ -47,7 +47,7 @@ function Reviews() {
         </p>
       </div>
 
-      <div className="table-container">
+      <div className="table-container glass-card">
         <table className="reviews-table">
           <thead>
             <tr>
@@ -61,11 +61,15 @@ function Reviews() {
 
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="5" style={{ textAlign: "center", padding: "50px" }}>
-                  Loading Reviews...
-                </td>
-              </tr>
+              Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i}>
+                  <td><span className="skeleton" style={{ width: "50%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 90, height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: "80%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 70, height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 60, height: 30, borderRadius: 8 }} /></td>
+                </tr>
+              ))
             ) : reviews.length === 0 ? (
               <tr>
                 <td colSpan="5" style={{ textAlign: "center", padding: "50px" }}>

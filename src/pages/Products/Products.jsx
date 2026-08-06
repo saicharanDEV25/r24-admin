@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import Layout from "../../components/Layout/Layout";
+import CountUp from "../../components/CountUp/CountUp";
 
 import "./Products.css";
 
@@ -442,13 +443,13 @@ function Products() {
 
       <div className="product-stats">
 
-        <div className="stat-card">
+        <div className="stat-card glass-card stagger-in">
 
           <Package size={34} />
 
           <div>
 
-            <h2>{totalProducts}</h2>
+            <h2><CountUp end={totalProducts} duration={1.2} /></h2>
 
             <p>Total Products</p>
 
@@ -456,13 +457,13 @@ function Products() {
 
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card glass-card stagger-in">
 
           <Star size={34} />
 
           <div>
 
-            <h2>{featuredProducts}</h2>
+            <h2><CountUp end={featuredProducts} duration={1.2} /></h2>
 
             <p>Featured Products</p>
 
@@ -470,13 +471,13 @@ function Products() {
 
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card glass-card stagger-in">
 
           <AlertTriangle size={34} />
 
           <div>
 
-            <h2>{lowStockProducts}</h2>
+            <h2><CountUp end={lowStockProducts} duration={1.2} /></h2>
 
             <p>Low Stock</p>
 
@@ -484,13 +485,13 @@ function Products() {
 
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card glass-card stagger-in">
 
           <Package size={34} />
 
           <div>
 
-            <h2>{activeProducts}</h2>
+            <h2><CountUp end={activeProducts} duration={1.2} /></h2>
 
             <p>Active Products</p>
 
@@ -558,7 +559,7 @@ function Products() {
                   PRODUCTS TABLE
       ========================================== */}
 
-      <div className="table-container">
+      <div className="table-container glass-card">
 
         <table className="products-table">
 
@@ -582,19 +583,18 @@ function Products() {
           <tbody>
                         {loading ? (
 
-              <tr>
-
-                <td
-                  colSpan="8"
-                  style={{
-                    textAlign: "center",
-                    padding: "50px",
-                  }}
-                >
-                  Loading Products...
-                </td>
-
-              </tr>
+              Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i}>
+                  <td><span className="skeleton" style={{ width: 44, height: 44, borderRadius: 10 }} /></td>
+                  <td><span className="skeleton" style={{ width: "80%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: "60%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 50, height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 40, height: 20, borderRadius: 20 }} /></td>
+                  <td><span className="skeleton" style={{ width: 60, height: 20, borderRadius: 20 }} /></td>
+                  <td><span className="skeleton" style={{ width: 40, height: 20, borderRadius: 20 }} /></td>
+                  <td><span className="skeleton" style={{ width: 60, height: 30, borderRadius: 8 }} /></td>
+                </tr>
+              ))
 
             ) : filteredProducts.length === 0 ? (
 
@@ -742,7 +742,7 @@ function Products() {
 
         <div className="modal">
 
-          <div className="modal-content">
+          <div className="modal-content glass-card">
 
             <h2>
 

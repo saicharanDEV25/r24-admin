@@ -149,7 +149,7 @@ function Categories() {
         </div>
       </div>
 
-      <div className="table-container">
+      <div className="table-container glass-card">
         <table className="products-table">
           <thead>
             <tr>
@@ -163,11 +163,15 @@ function Categories() {
 
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="5" style={{ textAlign: "center", padding: "50px" }}>
-                  Loading Categories...
-                </td>
-              </tr>
+              Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i}>
+                  <td><span className="skeleton" style={{ width: 44, height: 44, borderRadius: 10 }} /></td>
+                  <td><span className="skeleton" style={{ width: "60%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: "85%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: 60, height: 20, borderRadius: 20 }} /></td>
+                  <td><span className="skeleton" style={{ width: 60, height: 30, borderRadius: 8 }} /></td>
+                </tr>
+              ))
             ) : filteredCategories.length === 0 ? (
               <tr>
                 <td colSpan="5" style={{ textAlign: "center", padding: "50px" }}>
@@ -234,7 +238,7 @@ function Categories() {
 
       {showModal && (
         <div className="modal-overlay">
-          <div className="modal">
+          <div className="modal glass-card">
             <div className="modal-header">
               <h2>{category.id ? "Update Category" : "Add Category"}</h2>
             </div>
