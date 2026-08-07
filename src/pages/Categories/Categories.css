@@ -1,9 +1,8 @@
-/* ======================================================
-                R24 CATEGORIES PAGE
-   Reuses the shared table/modal/form classes defined in
-   Products.css (page-title, stat-card, table-container,
-   modal, form-grid, etc.) — only page-specific bits here.
-====================================================== */
+/*
+   Reuses the shared table/modal/form classes defined in Products.css
+   (page-title, stat-card, table-container, modal, form-grid, etc.) —
+   only page-specific bits here.
+*/
 
 .category-icon-fallback {
   width: 70px;

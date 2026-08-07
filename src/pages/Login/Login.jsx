@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { User, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 import { login } from "../../services/authService";
 import "./Login.css";
 
@@ -8,45 +9,79 @@ function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
 
     try {
+      setSubmitting(true);
+
       await login(username, password);
 
-      // Save login status
       localStorage.setItem("isLoggedIn", "true");
 
       navigate("/dashboard");
 
-    } catch (err) {
-      alert("Invalid Username or Password");
+    } catch (error) {
+      console.log(error);
+      setError("Invalid username or password.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
     <div className="login-container">
-      <form className="login-box" onSubmit={handleLogin}>
+      <form className="login-box glass-card" onSubmit={handleLogin}>
 
-        <h1>R24 ADMIN</h1>
+        <div className="login-logo">
+          <div className="login-logo-circle">R24</div>
+          <h1>R24 Automotive</h1>
+          <span>Premium Admin Panel</span>
+        </div>
 
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <label className="login-field">
+          <User size={18} />
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+          />
+        </label>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <label className="login-field">
+          <Lock size={18} />
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+          />
+          <button
+            type="button"
+            className="login-toggle-password"
+            onClick={() => setShowPassword((prev) => !prev)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </label>
 
-        <button type="submit">
-          Login
+        {error && <p className="login-error">{error}</p>}
+
+        <button type="submit" className="login-submit-btn" disabled={submitting}>
+          {submitting ? "Signing In..." : (
+            <>
+              <LogIn size={18} /> Login
+            </>
+          )}
         </button>
 
       </form>

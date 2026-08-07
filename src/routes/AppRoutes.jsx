@@ -14,6 +14,7 @@ import Analytics from "../pages/Analytics/Analytics";
 
 import Layout from "../components/Layout/Layout";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import NotificationCenter from "../components/NotificationCenter/NotificationCenter";
 
 function NotFound() {
   return <h1>404 Not Found</h1>;
@@ -22,6 +23,7 @@ function NotFound() {
 export default function AppRoutes() {
   return (
     <BrowserRouter>
+      <NotificationCenter />
       <Routes>
 
         <Route path="/" element={<Login />} />

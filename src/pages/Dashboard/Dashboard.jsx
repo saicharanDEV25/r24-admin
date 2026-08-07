@@ -21,10 +21,6 @@ import CountUp from "../../components/CountUp/CountUp";
 
 import "./Dashboard.css";
 
-/* ===========================================
-          Dashboard
-=========================================== */
-
 function Dashboard() {
 
   const navigate = useNavigate();
@@ -135,9 +131,7 @@ function Dashboard() {
 
     <div className="dashboard">
 
-      {/* =========================
-            Banner
-      ========================= */}
+      {/* Banner */}
 
       <motion.div
 
@@ -193,10 +187,7 @@ function Dashboard() {
 
       </motion.div>
 
-      {/* ==========================================
-            SUMMARY CARDS STARTS HERE
-            PART-2
-      ========================================== */}
+      {/* Summary Cards */}
             <div className="dashboard-cards">
 
         {/* Products Card */}
@@ -515,14 +506,10 @@ function Dashboard() {
 
       </div>
 
-      {/* ==========================================
-            RECENT PRODUCTS & GALLERY
-      ========================================== */}
+      {/* Recent Products & Gallery */}
 
       <div className="dashboard-content">
-              {/* ===========================
-              Recent Products
-        ============================ */}
+              {/* Recent Products */}
 
         <motion.div
           className="dashboard-section glass-card"
@@ -624,9 +611,7 @@ function Dashboard() {
           </div>
 
         </motion.div>
-                {/* ===========================
-              Latest Gallery
-        ============================ */}
+                {/* Latest Gallery */}
 
         <motion.div
           className="dashboard-section glass-card"

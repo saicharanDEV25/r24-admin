@@ -23,9 +23,12 @@ const cardDefs = [
   { key: "uniqueVisitorsThisMonth", label: "Unique Visitors This Month", icon: Users },
 ];
 
+const ONLINE_POLL_INTERVAL_MS = 10 * 1000;
+
 function Analytics() {
   const [summary, setSummary] = useState(emptySummary);
   const [loading, setLoading] = useState(true);
+  const [onlineCount, setOnlineCount] = useState(0);
 
   const loadSummary = async () => {
     try {
@@ -39,8 +42,23 @@ function Analytics() {
     }
   };
 
+  const loadOnlineCount = async () => {
+    try {
+      const response = await api.get("/analytics/online-count");
+      setOnlineCount(response.data.onlineCount || 0);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     loadSummary();
+  }, []);
+
+  useEffect(() => {
+    loadOnlineCount();
+    const interval = setInterval(loadOnlineCount, ONLINE_POLL_INTERVAL_MS);
+    return () => clearInterval(interval);
   }, []);
 
   const maxVisits = Math.max(1, ...summary.last7Days.map((d) => d.visits));
@@ -57,6 +75,16 @@ function Analytics() {
         <p className="page-subtitle">
           How many people are visiting the website, and when.
         </p>
+      </div>
+
+      <div className="analytics-live-banner glass-card">
+        <span className="analytics-live-dot" />
+        <div>
+          <h2>
+            <CountUp end={onlineCount} duration={0.8} />
+          </h2>
+          <span>Users online right now</span>
+        </div>
       </div>
 
       {loading ? (

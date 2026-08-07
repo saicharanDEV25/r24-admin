@@ -30,9 +30,7 @@ a{
     color:inherit;
 }
 
-/* ======================================================
-   SHARED STATUS BADGES
-====================================================== */
+/* Shared Status Badges */
 
 .badge{
     display:inline-flex;
@@ -64,14 +62,12 @@ a{
     color:#94a3b8;
 }
 
-/* ======================================================
-   GLASSMORPHISM
-   Add "glass-card" alongside a page's existing card/table
-   class to give it a premium translucent-blur surface.
-   !important is intentional here — this is a cross-cutting
-   override layer meant to win over each page's own hardcoded
-   background, regardless of CSS source order.
-====================================================== */
+/*
+   Add "glass-card" alongside a page's existing card/table class to give
+   it a premium translucent-blur surface. !important is intentional here —
+   this is a cross-cutting override layer meant to win over each page's own
+   hardcoded background, regardless of CSS source order.
+*/
 
 .glass-card{
     background:rgba(22,27,34,.55) !important;
@@ -87,9 +83,7 @@ a{
     box-shadow:0 8px 32px rgba(0,0,0,.08);
 }
 
-/* ======================================================
-   SKELETON LOADING
-====================================================== */
+/* Skeleton Loading */
 
 .skeleton{
     background:linear-gradient(100deg,#1f2937 30%,#2d3748 50%,#1f2937 70%);
@@ -129,11 +123,10 @@ a{
     }
 }
 
-/* ======================================================
-   STAGGERED ENTRANCE ANIMATION
-   Apply "stagger-in" to a list's items; nth-child rules
-   below add a short cascading delay (covers up to 12 items).
-====================================================== */
+/*
+   Apply "stagger-in" to a list's items; nth-child rules below add a
+   short cascading delay (covers up to 12 items).
+*/
 
 .stagger-in{
     animation:premium-fade-up .5s ease both;
@@ -163,9 +156,7 @@ a{
     }
 }
 
-/* ======================================================
-   PREMIUM HOVER GLOW (small reusable accent for icons/badges)
-====================================================== */
+/* Premium hover glow — small reusable accent for icons/badges */
 
 .premium-glow-hover{
     transition:.3s ease;
@@ -175,12 +166,11 @@ a{
     box-shadow:0 0 0 4px rgba(245,158,11,.12);
 }
 
-/* ======================================================
-   LIGHT THEME OVERRIDES
-   (targets the shared surfaces/classes used across every
-   admin page — sidebar, top navbar, page headers, tables,
-   dashboard cards, settings cards, modals)
-====================================================== */
+/*
+   Light theme overrides — targets the shared surfaces/classes used
+   across every admin page: sidebar, top navbar, page headers, tables,
+   dashboard cards, settings cards, modals.
+*/
 
 [data-theme="light"] body{
     background:#f4f5f7;

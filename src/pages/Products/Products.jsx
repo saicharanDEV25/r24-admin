@@ -17,9 +17,7 @@ import "./Products.css";
 
 import api from "../../services/api";
 
-/* ==========================================
-            INITIAL PRODUCT
-========================================== */
+/* Initial Product */
 
 const initialProduct = {
 
@@ -42,10 +40,6 @@ const initialProduct = {
   imageUrl: "",
 
 };
-
-/* ==========================================
-            COMPONENT
-========================================== */
 
 function Products() {
 
@@ -79,9 +73,7 @@ function Products() {
 
   }, []);
 
-  /* ==========================================
-              LOAD PRODUCTS
-  ========================================== */
+  /* Load Products */
 
   const loadProducts = async () => {
 
@@ -105,9 +97,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              LOAD CATEGORIES
-  ========================================== */
+  /* Load Categories */
 
   const loadCategories = async () => {
 
@@ -125,9 +115,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              HANDLE INPUT
-  ========================================== */
+  /* Handle Input */
 
   const handleChange = (e) => {
 
@@ -145,9 +133,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              IMAGE SELECT
-  ========================================== */
+  /* Image Select */
 
   const handleFileChange = (e) => {
 
@@ -155,9 +141,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              IMAGE UPLOAD
-  ========================================== */
+  /* Image Upload */
 
   const uploadImage = async () => {
 
@@ -182,12 +166,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-          NEXT PART STARTS HERE
-  ========================================== */
-    /* ==========================================
-              OPEN ADD MODAL
-  ========================================== */
+  /* Open Add Modal */
 
   const openAddModal = () => {
 
@@ -199,9 +178,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              CLOSE MODAL
-  ========================================== */
+  /* Close Modal */
 
   const closeModal = () => {
 
@@ -213,9 +190,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              SAVE PRODUCT
-  ========================================== */
+  /* Save Product */
 
   const saveProduct = async () => {
 
@@ -295,9 +270,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              EDIT PRODUCT
-  ========================================== */
+  /* Edit Product */
 
   const editProduct = (item) => {
 
@@ -329,9 +302,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              DELETE PRODUCT
-  ========================================== */
+  /* Delete Product */
 
   const deleteProduct = async (id) => {
 
@@ -357,9 +328,7 @@ function Products() {
 
   };
 
-  /* ==========================================
-              FILTER PRODUCTS
-  ========================================== */
+  /* Filter Products */
 
   const filteredProducts = products.filter((item) => {
 
@@ -387,9 +356,7 @@ function Products() {
 
   });
 
-  /* ==========================================
-              DASHBOARD STATS
-  ========================================== */
+  /* Dashboard Stats */
 
   const totalProducts = products.length;
 
@@ -407,10 +374,6 @@ function Products() {
     products.filter(
       (item) => item.active
     ).length;
-
-  /* ==========================================
-              JSX STARTS
-  ========================================== */
 
   return (
     <>
@@ -438,8 +401,6 @@ function Products() {
         </button>
 
       </div>
-
-
 
       <div className="product-stats">
 
@@ -501,9 +462,7 @@ function Products() {
 
       </div>
 
-      {/* ==========================================
-                  FILTERS
-      ========================================== */}
+      {/* Filters */}
 
       <div className="filter-bar">
 
@@ -555,9 +514,7 @@ function Products() {
 
       </div>
 
-      {/* ==========================================
-                  PRODUCTS TABLE
-      ========================================== */}
+      {/* Products Table */}
 
       <div className="table-container glass-card">
 
@@ -734,150 +691,164 @@ function Products() {
 
       </div>
 
-      {/* ==========================================
-                  MODAL STARTS
-      ========================================== */}
-
       {showModal && (
 
-        <div className="modal">
+        <div className="modal-overlay">
 
-          <div className="modal-content glass-card">
+          <div className="modal glass-card">
 
-            <h2>
-
-              {product.id
-                ? "Update Product"
-                : "Add Product"}
-
-            </h2>
-                        <input
-              type="text"
-              name="name"
-              placeholder="Product Name"
-              value={product.name}
-              onChange={handleChange}
-            />
-
-            <select
-              name="category"
-              value={product.category}
-              onChange={handleChange}
-            >
-
-              <option value="">
-                Select Category
-              </option>
-
-              {categories.map((cat) => (
-
-                <option
-                  key={cat.id}
-                  value={cat.id}
-                >
-                  {cat.name}
-                </option>
-
-              ))}
-
-            </select>
-
-            <input
-              type="number"
-              name="price"
-              placeholder="Price"
-              value={product.price}
-              onChange={handleChange}
-            />
-
-            <input
-              type="number"
-              name="stock"
-              placeholder="Stock"
-              value={product.stock}
-              onChange={handleChange}
-            />
-
-            <textarea
-              name="description"
-              placeholder="Description"
-              rows="4"
-              value={product.description}
-              onChange={handleChange}
-            />
-
-            <input
-              type="file"
-              onChange={handleFileChange}
-            />
-
-            {selectedFile && (
-
-              <img
-                src={URL.createObjectURL(selectedFile)}
-                alt="Preview"
-                className="preview-image"
-              />
-
-            )}
-
-            {!selectedFile && product.imageUrl && (
-
-              <img
-                src={product.imageUrl}
-                alt=""
-                className="preview-image"
-              />
-
-            )}
-
-            <div className="checkbox-group">
-
-              <label>
-
-                <input
-                  type="checkbox"
-                  name="featured"
-                  checked={product.featured}
-                  onChange={handleChange}
-                />
-
-                Featured Product
-
-              </label>
-
-              <label>
-
-                <input
-                  type="checkbox"
-                  name="active"
-                  checked={product.active}
-                  onChange={handleChange}
-                />
-
-                Active Product
-
-              </label>
-
-            </div>
-
-                       <div className="modal-buttons">
-
-              <button
-                className="save-btn"
-                onClick={saveProduct}
-              >
+            <div className="modal-header">
+              <h2>
                 {product.id
                   ? "Update Product"
-                  : "Save Product"}
-              </button>
+                  : "Add Product"}
+              </h2>
+            </div>
 
-              <button
-                className="cancel-btn"
-                onClick={closeModal}
-              >
-                Cancel
-              </button>
+            <div className="modal-body">
+
+              <div className="form-grid">
+
+                <div className="form-group full-width">
+                  <label>Product Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Product Name"
+                    value={product.name}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Category</label>
+                  <select
+                    name="category"
+                    value={product.category}
+                    onChange={handleChange}
+                  >
+
+                    <option value="">
+                      Select Category
+                    </option>
+
+                    {categories.map((cat) => (
+
+                      <option
+                        key={cat.id}
+                        value={cat.id}
+                      >
+                        {cat.name}
+                      </option>
+
+                    ))}
+
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Price</label>
+                  <input
+                    type="number"
+                    name="price"
+                    placeholder="Price"
+                    value={product.price}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Stock</label>
+                  <input
+                    type="number"
+                    name="stock"
+                    placeholder="Stock"
+                    value={product.stock}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group full-width">
+                  <label>Description</label>
+                  <textarea
+                    name="description"
+                    placeholder="Description"
+                    rows="4"
+                    value={product.description}
+                    onChange={handleChange}
+                  />
+                </div>
+
+              </div>
+
+              <div className="image-upload">
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                />
+
+                {selectedFile && (
+                  <div className="image-preview">
+                    <img
+                      src={URL.createObjectURL(selectedFile)}
+                      alt="Preview"
+                    />
+                  </div>
+                )}
+
+                {!selectedFile && product.imageUrl && (
+                  <div className="image-preview">
+                    <img
+                      src={product.imageUrl}
+                      alt=""
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="checkbox-row">
+
+                <div className="checkbox-group">
+                  <input
+                    type="checkbox"
+                    name="featured"
+                    checked={product.featured}
+                    onChange={handleChange}
+                  />
+                  <label>Featured Product</label>
+                </div>
+
+                <div className="checkbox-group">
+                  <input
+                    type="checkbox"
+                    name="active"
+                    checked={product.active}
+                    onChange={handleChange}
+                  />
+                  <label>Active Product</label>
+                </div>
+
+              </div>
+
+              <div className="modal-buttons">
+
+                <button
+                  className="save-btn"
+                  onClick={saveProduct}
+                >
+                  {product.id
+                    ? "Update Product"
+                    : "Save Product"}
+                </button>
+
+                <button
+                  className="cancel-btn"
+                  onClick={closeModal}
+                >
+                  Cancel
+                </button>
+
+              </div>
 
             </div>
 
