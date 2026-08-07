@@ -14,8 +14,6 @@ import Analytics from "../pages/Analytics/Analytics";
 
 import Layout from "../components/Layout/Layout";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
-import NotificationCenter from "../components/NotificationCenter/NotificationCenter";
-import { NotificationProvider } from "../context/NotificationContext";
 
 function NotFound() {
   return <h1>404 Not Found</h1>;
@@ -24,8 +22,6 @@ function NotFound() {
 export default function AppRoutes() {
   return (
     <BrowserRouter>
-      <NotificationProvider>
-      <NotificationCenter />
       <Routes>
 
         <Route path="/" element={<Login />} />
@@ -143,7 +139,6 @@ export default function AppRoutes() {
         <Route path="*" element={<NotFound />} />
 
       </Routes>
-      </NotificationProvider>
     </BrowserRouter>
   );
 }

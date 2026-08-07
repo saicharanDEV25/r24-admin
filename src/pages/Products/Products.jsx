@@ -6,7 +6,6 @@ import {
   Pencil,
   Trash2,
   Package,
-  Star,
   AlertTriangle,
 } from "lucide-react";
 
@@ -32,8 +31,6 @@ const initialProduct = {
   description: "",
 
   stock: "",
-
-  featured: false,
 
   active: true,
 
@@ -234,8 +231,6 @@ function Products() {
 
         imageUrl: imageName,
 
-        featured: product.featured,
-
         active: product.active,
 
       };
@@ -287,8 +282,6 @@ function Products() {
       description: item.description,
 
       stock: item.stock,
-
-      featured: item.featured,
 
       active: item.active,
 
@@ -360,11 +353,6 @@ function Products() {
 
   const totalProducts = products.length;
 
-  const featuredProducts =
-    products.filter(
-      (item) => item.featured
-    ).length;
-
   const lowStockProducts =
     products.filter(
       (item) => item.stock <= 5
@@ -413,20 +401,6 @@ function Products() {
             <h2><CountUp end={totalProducts} duration={1.2} /></h2>
 
             <p>Total Products</p>
-
-          </div>
-
-        </div>
-
-        <div className="stat-card glass-card stagger-in">
-
-          <Star size={34} />
-
-          <div>
-
-            <h2><CountUp end={featuredProducts} duration={1.2} /></h2>
-
-            <p>Featured Products</p>
 
           </div>
 
@@ -530,7 +504,6 @@ function Products() {
               <th>Price</th>
               <th>Stock</th>
               <th>Status</th>
-              <th>Featured</th>
               <th>Actions</th>
 
             </tr>
@@ -548,7 +521,6 @@ function Products() {
                   <td><span className="skeleton" style={{ width: 50, height: 14 }} /></td>
                   <td><span className="skeleton" style={{ width: 40, height: 20, borderRadius: 20 }} /></td>
                   <td><span className="skeleton" style={{ width: 60, height: 20, borderRadius: 20 }} /></td>
-                  <td><span className="skeleton" style={{ width: 40, height: 20, borderRadius: 20 }} /></td>
                   <td><span className="skeleton" style={{ width: 60, height: 30, borderRadius: 8 }} /></td>
                 </tr>
               ))
@@ -558,7 +530,7 @@ function Products() {
               <tr>
 
                 <td
-                  colSpan="8"
+                  colSpan="7"
                   style={{
                     textAlign: "center",
                     padding: "50px",
@@ -635,20 +607,6 @@ function Products() {
                       }
                     >
                       {item.active ? "Active" : "Inactive"}
-                    </span>
-
-                  </td>
-
-                  <td>
-
-                    <span
-                      className={
-                        item.featured
-                          ? "badge featured"
-                          : "badge normal"
-                      }
-                    >
-                      {item.featured ? "Yes" : "No"}
                     </span>
 
                   </td>
@@ -807,16 +765,6 @@ function Products() {
               </div>
 
               <div className="checkbox-row">
-
-                <div className="checkbox-group">
-                  <input
-                    type="checkbox"
-                    name="featured"
-                    checked={product.featured}
-                    onChange={handleChange}
-                  />
-                  <label>Featured Product</label>
-                </div>
 
                 <div className="checkbox-group">
                   <input

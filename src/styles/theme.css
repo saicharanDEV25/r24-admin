@@ -52,15 +52,6 @@ a{
     color:#ef4444;
 }
 
-.badge.featured{
-    background:rgba(245,158,11,.14);
-    color:var(--gold);
-}
-
-.badge.normal{
-    background:rgba(148,163,184,.14);
-    color:#94a3b8;
-}
 
 /*
    Add "glass-card" alongside a page's existing card/table class to give
