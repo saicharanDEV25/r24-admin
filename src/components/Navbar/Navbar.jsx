@@ -8,13 +8,24 @@ import {
   Settings,
 } from "lucide-react";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useTheme } from "../../context/ThemeContext";
+import { useNotifications } from "../../context/NotificationContext";
 
 import "./Navbar.css";
+
+function timeAgo(timestamp) {
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+  if (seconds < 60) return "Just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+}
 
 function Navbar({ onMenuClick }) {
 
@@ -24,9 +35,26 @@ function Navbar({ onMenuClick }) {
 
   const { theme, toggleTheme } = useTheme();
 
+  const { notifications, unreadCount, markAllRead } = useNotifications();
+
+  const [notifOpen, setNotifOpen] = useState(false);
+
+  const notifRef = useRef(null);
+
   const [time, setTime] = useState(new Date());
 
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setNotifOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
 
@@ -160,13 +188,53 @@ function Navbar({ onMenuClick }) {
 
         </div>
 
-        <button className="icon-btn">
+        <div className="notification-menu" ref={notifRef}>
 
-          <Bell size={20} />
+          <button
+            className="icon-btn"
+            onClick={() => {
+              setNotifOpen((prev) => !prev);
+              if (!notifOpen) markAllRead();
+            }}
+          >
 
-          <span className="notification-dot"></span>
+            <Bell size={20} />
 
-        </button>
+            {unreadCount > 0 && (
+              <span className="notification-dot"></span>
+            )}
+
+          </button>
+
+          {notifOpen && (
+            <div className="notification-dropdown">
+
+              <div className="notification-dropdown-header">
+                Notifications
+              </div>
+
+              {notifications.length === 0 ? (
+                <p className="notification-empty">No notifications yet.</p>
+              ) : (
+                notifications.map((n) => (
+                  <button
+                    key={n.id}
+                    className="notification-item"
+                    onClick={() => {
+                      navigate(n.path);
+                      setNotifOpen(false);
+                    }}
+                  >
+                    <span>{n.message}</span>
+                    <small>{timeAgo(n.createdAt)}</small>
+                  </button>
+                ))
+              )}
+
+            </div>
+          )}
+
+        </div>
 
         <button
           className="icon-btn"
