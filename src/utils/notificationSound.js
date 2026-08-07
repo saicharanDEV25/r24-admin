@@ -1,4 +1,6 @@
 let sharedContext = null;
+let lastPlayedAt = 0;
+const MIN_GAP_MS = 1200;
 
 function getContext() {
   const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
@@ -35,6 +37,10 @@ function tone(ctx, frequency, startAt, duration, peakGain) {
 
 export function playNotificationSound() {
   try {
+    const nowMs = Date.now();
+    if (nowMs - lastPlayedAt < MIN_GAP_MS) return;
+    lastPlayedAt = nowMs;
+
     const ctx = getContext();
     if (!ctx) return;
 
