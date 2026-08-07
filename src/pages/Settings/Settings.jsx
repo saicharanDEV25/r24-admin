@@ -44,9 +44,9 @@ function Settings() {
           <h3>Admin Profile</h3>
 
           <div className="settings-profile-row">
-            <div className="settings-avatar">SC</div>
+            <div className="settings-avatar">A</div>
             <div>
-              <h4>Sai Charan</h4>
+              <h4>Alex</h4>
               <p>
                 <ShieldCheck size={14} /> Super Administrator
               </p>

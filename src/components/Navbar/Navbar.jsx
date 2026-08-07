@@ -192,7 +192,7 @@ function Navbar({ onMenuClick }) {
 
           <div className="profile-avatar">
 
-            SC
+            A
 
           </div>
 
@@ -200,7 +200,7 @@ function Navbar({ onMenuClick }) {
 
             <h4>
 
-              Sai Charan
+              Alex
 
             </h4>
 
