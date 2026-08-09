@@ -15,6 +15,7 @@ import CountUp from "../../components/CountUp/CountUp";
 import "./Products.css";
 
 import api from "../../services/api";
+import { BIKE_BRANDS } from "../../constants/bikes";
 
 /* Initial Product */
 
@@ -23,6 +24,10 @@ const initialProduct = {
   id: null,
 
   name: "",
+
+  brand: "",
+
+  model: "",
 
   category: "",
 
@@ -126,9 +131,16 @@ function Products() {
         ? checked
         : value,
 
+      // Model list depends on brand — changing brand invalidates
+      // whatever model was picked before.
+      ...(name === "brand" ? { model: "" } : {}),
+
     }));
 
   };
+
+  const brandModels =
+    BIKE_BRANDS.find((b) => b.brand === product.brand)?.models || [];
 
   /* Image Select */
 
@@ -217,6 +229,10 @@ function Products() {
 
         name: product.name,
 
+        brand: product.brand || null,
+
+        model: product.model || null,
+
         category: {
 
           id: Number(product.category),
@@ -274,6 +290,10 @@ function Products() {
       id: item.id,
 
       name: item.name,
+
+      brand: item.brand || "",
+
+      model: item.model || "",
 
       category: item.category?.id || "",
 
@@ -500,6 +520,7 @@ function Products() {
 
               <th>Image</th>
               <th>Name</th>
+              <th>Brand / Model</th>
               <th>Category</th>
               <th>Price</th>
               <th>Stock</th>
@@ -517,6 +538,7 @@ function Products() {
                 <tr key={i}>
                   <td><span className="skeleton" style={{ width: 44, height: 44, borderRadius: 10 }} /></td>
                   <td><span className="skeleton" style={{ width: "80%", height: 14 }} /></td>
+                  <td><span className="skeleton" style={{ width: "70%", height: 14 }} /></td>
                   <td><span className="skeleton" style={{ width: "60%", height: 14 }} /></td>
                   <td><span className="skeleton" style={{ width: 50, height: 14 }} /></td>
                   <td><span className="skeleton" style={{ width: 40, height: 20, borderRadius: 20 }} /></td>
@@ -530,7 +552,7 @@ function Products() {
               <tr>
 
                 <td
-                  colSpan="7"
+                  colSpan="8"
                   style={{
                     textAlign: "center",
                     padding: "50px",
@@ -568,6 +590,23 @@ function Products() {
                       {item.name}
 
                     </strong>
+
+                  </td>
+
+                  <td>
+
+                    {item.brand ? (
+                      <>
+                        {item.brand}
+                        {item.model && (
+                          <span style={{ display: "block", opacity: 0.65, fontSize: 12 }}>
+                            {item.model}
+                          </span>
+                        )}
+                      </>
+                    ) : (
+                      <span style={{ opacity: 0.5 }}>—</span>
+                    )}
 
                   </td>
 
@@ -676,6 +715,59 @@ function Products() {
                     value={product.name}
                     onChange={handleChange}
                   />
+                </div>
+
+                <div className="form-group">
+                  <label>Brand</label>
+                  <select
+                    name="brand"
+                    value={product.brand}
+                    onChange={handleChange}
+                  >
+
+                    <option value="">
+                      No specific brand
+                    </option>
+
+                    {BIKE_BRANDS.map((b) => (
+
+                      <option
+                        key={b.brand}
+                        value={b.brand}
+                      >
+                        {b.brand}
+                      </option>
+
+                    ))}
+
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Model</label>
+                  <select
+                    name="model"
+                    value={product.model}
+                    onChange={handleChange}
+                    disabled={!product.brand}
+                  >
+
+                    <option value="">
+                      Fits every {product.brand || "brand"} model
+                    </option>
+
+                    {brandModels.map((m) => (
+
+                      <option
+                        key={m}
+                        value={m}
+                      >
+                        {m}
+                      </option>
+
+                    ))}
+
+                  </select>
                 </div>
 
                 <div className="form-group">
