@@ -31,4 +31,8 @@ export const BIKE_BRANDS = [
     brand: "Benelli",
     models: ["TRK 502", "Leoncino 500", "Imperiale 400"],
   },
+  {
+    brand: "Kawasaki",
+    models: ["Z900"],
+  },
 ];
