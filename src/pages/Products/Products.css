@@ -146,6 +146,138 @@
     margin-top:5px;
 
 }
+/* Folder Breadcrumb */
+
+.folder-breadcrumb{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:22px;
+
+    flex-wrap:wrap;
+
+}
+
+.folder-breadcrumb button{
+
+    background:none;
+
+    border:none;
+
+    color:#94a3b8;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    padding:6px 4px;
+
+    transition:.25s ease;
+
+}
+
+.folder-breadcrumb button:hover{
+
+    color:#FFD700;
+
+}
+
+.folder-breadcrumb button.active{
+
+    color:#FFD700;
+
+    cursor:default;
+
+}
+
+.folder-breadcrumb .crumb-sep{
+
+    color:#475569;
+
+    font-size:14px;
+
+}
+
+/* Folder Grid */
+
+.folder-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+
+    gap:20px;
+
+    margin-bottom:28px;
+
+}
+
+.folder-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:28px 20px;
+
+    background:#161b22;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+    color:#ffffff;
+
+}
+
+.folder-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#FFD700;
+
+    box-shadow:0 15px 30px rgba(245,158,11,.15);
+
+}
+
+.folder-card svg{
+
+    color:#FFD700;
+
+}
+
+.folder-name{
+
+    font-size:16px;
+
+    font-weight:700;
+
+    text-align:center;
+
+}
+
+.folder-count{
+
+    font-size:13px;
+
+    color:#94a3b8;
+
+}
+
 /* Filter Bar */
 
 .filter-bar{
@@ -858,6 +990,12 @@ input[type="file"]{
     .product-stats{
 
         grid-template-columns:1fr;
+
+    }
+
+    .folder-grid{
+
+        grid-template-columns:repeat(2,1fr);
 
     }
 

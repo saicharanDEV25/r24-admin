@@ -7,6 +7,7 @@ import {
   Trash2,
   Package,
   AlertTriangle,
+  Folder,
 } from "lucide-react";
 
 import Layout from "../../components/Layout/Layout";
@@ -58,6 +59,15 @@ function Products() {
   const [categoryFilter, setCategoryFilter] = useState("");
 
   const [statusFilter, setStatusFilter] = useState("all");
+
+  // Folder-style browsing: null viewBrand = brand folders at the root,
+  // null viewModel (with a brand chosen) = model folders inside that
+  // brand. Typing a search term skips straight to the table, scoped to
+  // whichever folder you were standing in (root search reaches every
+  // product).
+  const [viewBrand, setViewBrand] = useState(null);
+
+  const [viewModel, setViewModel] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -179,7 +189,13 @@ function Products() {
 
   const openAddModal = () => {
 
-    setProduct(initialProduct);
+    // Adding a product while browsing inside a brand/model folder should
+    // drop the new item into that same folder instead of starting blank.
+    setProduct({
+      ...initialProduct,
+      brand: viewBrand || "",
+      model: viewModel || "",
+    });
 
     setSelectedFile(null);
 
@@ -341,9 +357,84 @@ function Products() {
 
   };
 
+  /* Folder Navigation */
+
+  const openBrandFolder = (b) => {
+    setViewBrand(b);
+    setViewModel(null);
+    setSearch("");
+    setCategoryFilter("");
+  };
+
+  const openModelFolder = (m) => {
+    setViewModel(m);
+    setSearch("");
+    setCategoryFilter("");
+  };
+
+  const goToRoot = () => {
+    setViewBrand(null);
+    setViewModel(null);
+    setSearch("");
+    setCategoryFilter("");
+  };
+
+  const goToBrandLevel = () => {
+    setViewModel(null);
+    setSearch("");
+    setCategoryFilter("");
+  };
+
+  const brandFolderCounts = { Unassigned: 0 };
+  products.forEach((item) => {
+    const b = item.brand || "Unassigned";
+    brandFolderCounts[b] = (brandFolderCounts[b] || 0) + 1;
+  });
+
+  const brandFolders = [
+    ...BIKE_BRANDS.map((b) => b.brand),
+    ...(brandFolderCounts.Unassigned > 0 ? ["Unassigned"] : []),
+  ];
+
+  const viewBrandModels =
+    BIKE_BRANDS.find((b) => b.brand === viewBrand)?.models || [];
+
+  // A product with no model set fits every model of its brand, so it
+  // counts (and later shows up) under each model folder — same rule the
+  // customer-facing site uses.
+  const modelFolderCounts = {};
+  viewBrandModels.forEach((m) => {
+    modelFolderCounts[m] = products.filter(
+      (item) => (item.brand || "Unassigned") === viewBrand &&
+        (!item.model || item.model === m)
+    ).length;
+  });
+
+  const searching = search.trim().length > 0;
+  const hasModelLevel = viewBrandModels.length > 1;
+
+  const showBrandFolders = !viewBrand && !searching;
+  const showModelFolders = viewBrand && !viewModel && hasModelLevel && !searching;
+
   /* Filter Products */
 
-  const filteredProducts = products.filter((item) => {
+  // Scope to whichever folder is currently open before applying the
+  // search/category/status filters below.
+  let scopedProducts = products;
+
+  if (viewBrand) {
+    scopedProducts = scopedProducts.filter(
+      (item) => (item.brand || "Unassigned") === viewBrand
+    );
+
+    if (viewModel) {
+      scopedProducts = scopedProducts.filter(
+        (item) => !item.model || item.model === viewModel
+      );
+    }
+  }
+
+  const filteredProducts = scopedProducts.filter((item) => {
 
     const matchSearch = item.name
       ?.toLowerCase()
@@ -456,6 +547,38 @@ function Products() {
 
       </div>
 
+      {/* Folder Breadcrumb */}
+
+      <div className="folder-breadcrumb">
+
+        <button
+          className={!viewBrand ? "active" : ""}
+          onClick={goToRoot}
+        >
+          All Products
+        </button>
+
+        {viewBrand && (
+          <>
+            <span className="crumb-sep">/</span>
+            <button
+              className={viewBrand && !viewModel ? "active" : ""}
+              onClick={goToBrandLevel}
+            >
+              {viewBrand}
+            </button>
+          </>
+        )}
+
+        {viewModel && (
+          <>
+            <span className="crumb-sep">/</span>
+            <button className="active">{viewModel}</button>
+          </>
+        )}
+
+      </div>
+
       {/* Filters */}
 
       <div className="filter-bar">
@@ -466,49 +589,107 @@ function Products() {
 
           <input
             type="text"
-            placeholder="Search products..."
+            placeholder={
+              viewBrand
+                ? `Search inside ${viewModel || viewBrand}...`
+                : "Search all products..."
+            }
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
 
         </div>
 
-        <select
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-        >
-
-          <option value="">All Categories</option>
-
-          {categories.map((cat) => (
-
-            <option
-              key={cat.id}
-              value={cat.id}
+        {!showBrandFolders && !showModelFolders && (
+          <>
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
             >
-              {cat.name}
-            </option>
 
-          ))}
+              <option value="">All Categories</option>
 
-        </select>
+              {categories.map((cat) => (
 
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
+                <option
+                  key={cat.id}
+                  value={cat.id}
+                >
+                  {cat.name}
+                </option>
 
-          <option value="all">All Status</option>
+              ))}
 
-          <option value="active">Active</option>
+            </select>
 
-          <option value="inactive">Inactive</option>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
 
-        </select>
+              <option value="all">All Status</option>
+
+              <option value="active">Active</option>
+
+              <option value="inactive">Inactive</option>
+
+            </select>
+          </>
+        )}
 
       </div>
 
+      {/* Brand Folders */}
+
+      {showBrandFolders && (
+        <div className="folder-grid">
+
+          {brandFolders.map((b) => (
+
+            <button
+              key={b}
+              className="folder-card"
+              onClick={() => openBrandFolder(b)}
+            >
+              <Folder size={36} />
+              <span className="folder-name">{b}</span>
+              <span className="folder-count">
+                {brandFolderCounts[b] || 0} products
+              </span>
+            </button>
+
+          ))}
+
+        </div>
+      )}
+
+      {/* Model Folders */}
+
+      {showModelFolders && (
+        <div className="folder-grid">
+
+          {viewBrandModels.map((m) => (
+
+            <button
+              key={m}
+              className="folder-card"
+              onClick={() => openModelFolder(m)}
+            >
+              <Folder size={36} />
+              <span className="folder-name">{m}</span>
+              <span className="folder-count">
+                {modelFolderCounts[m] || 0} products
+              </span>
+            </button>
+
+          ))}
+
+        </div>
+      )}
+
       {/* Products Table */}
+
+      {!showBrandFolders && !showModelFolders && (
 
       <div className="table-container glass-card">
 
@@ -687,6 +868,8 @@ function Products() {
         </table>
 
       </div>
+
+      )}
 
       {showModal && (
 
