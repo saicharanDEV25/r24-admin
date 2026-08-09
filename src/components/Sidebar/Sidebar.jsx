@@ -130,7 +130,7 @@ function Sidebar({ closeSidebar }) {
 
           <h2>R24 Automotive</h2>
 
-          <span>Premium Admin Panel</span>
+          <span>Your Business. One Dashboard.</span>
 
         </div>
 

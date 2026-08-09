@@ -36,14 +36,6 @@ function Login() {
     <div className="login-container">
 
       <div className="login-showcase">
-        <video
-          className="login-showcase-video"
-          src="/videos/login-showcase.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
         <div className="login-showcase-overlay">
           <div className="login-showcase-logo">R24</div>
           <h2>Built for Riders.<br />Run by R24.</h2>
@@ -57,7 +49,7 @@ function Login() {
           <div className="login-logo">
             <div className="login-logo-circle">R24</div>
             <h1>R24 Automotive</h1>
-            <span>Premium Admin Panel</span>
+            <span>Your Business. One Dashboard.</span>
           </div>
 
           <label className="login-field">

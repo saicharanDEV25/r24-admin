@@ -47,19 +47,19 @@ function Navbar({ onMenuClick }) {
 
     "/categories": "Categories",
 
-    "/orders": "Orders",
-
-    "/customers": "Customers",
-
     "/gallery": "Gallery",
 
     "/reviews": "Reviews",
 
-    "/contact": "Contact Messages",
+    "/chat-leads": "Chat Leads",
+
+    "/bookings": "Bookings",
+
+    "/contact-messages": "Contact Messages",
+
+    "/analytics": "Analytics",
 
     "/settings": "Settings",
-
-    "/profile": "Profile",
 
   };
 

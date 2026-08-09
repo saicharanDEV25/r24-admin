@@ -14,9 +14,6 @@ export const BIKE_BRANDS = [
       "390 Adventure",
       "390 Adventure X",
       "390 Enduro R",
-      "790 Duke",
-      "890 Duke R",
-      "1290 Super Duke R",
     ],
   },
   {
@@ -25,7 +22,11 @@ export const BIKE_BRANDS = [
   },
   {
     brand: "Yamaha",
-    models: ["RS", "R15"],
+    models: ["R15"],
+  },
+  {
+    brand: "Bajaj",
+    models: ["RS"],
   },
   {
     brand: "Benelli",
@@ -34,5 +35,17 @@ export const BIKE_BRANDS = [
   {
     brand: "Kawasaki",
     models: ["Z900"],
+  },
+  {
+    brand: "Helmets",
+    models: [],
+  },
+  {
+    brand: "Riding Gear",
+    models: [],
+  },
+  {
+    brand: "Exhaust",
+    models: [],
   },
 ];
