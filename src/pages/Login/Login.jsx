@@ -22,8 +22,6 @@ function Login() {
 
       await login(username, password);
 
-      localStorage.setItem("isLoggedIn", "true");
-
       navigate("/dashboard");
 
     } catch (error) {
