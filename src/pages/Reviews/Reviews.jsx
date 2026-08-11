@@ -3,9 +3,26 @@ import { Star } from "lucide-react";
 import api from "../../services/api";
 import "./Reviews.css";
 
+const REVIEW_FILTERS = [
+  { key: "all", label: "All" },
+  { key: "today", label: "Today" },
+  { key: "yesterday", label: "Yesterday" },
+  { key: "custom", label: "Custom Date" },
+];
+
+function isSameLocalDay(a, b) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
 function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all");
+  const [customDate, setCustomDate] = useState("");
 
   useEffect(() => {
     loadReviews();
@@ -37,6 +54,33 @@ function Reviews() {
     }
   };
 
+  const filteredReviews = reviews.filter((item) => {
+    if (filter === "all") return true;
+    if (!item.createdAt) return false;
+
+    const reviewDate = new Date(item.createdAt);
+
+    if (filter === "today") return isSameLocalDay(reviewDate, new Date());
+
+    if (filter === "yesterday") {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      return isSameLocalDay(reviewDate, yesterday);
+    }
+
+    if (filter === "custom") {
+      if (!customDate) return false;
+      const [y, m, d] = customDate.split("-").map(Number);
+      return (
+        reviewDate.getFullYear() === y &&
+        reviewDate.getMonth() + 1 === m &&
+        reviewDate.getDate() === d
+      );
+    }
+
+    return true;
+  });
+
   return (
     <div className="reviews-page">
       <div className="reviews-page-header">
@@ -45,6 +89,28 @@ function Reviews() {
           Moderate reviews submitted by customers on the website. Delete
           anything inappropriate or spammy.
         </p>
+      </div>
+
+      <div className="reviews-filters">
+        {REVIEW_FILTERS.map((f) => (
+          <button
+            key={f.key}
+            className={filter === f.key ? "active" : ""}
+            onClick={() => setFilter(f.key)}
+          >
+            {f.label}
+          </button>
+        ))}
+
+        {filter === "custom" && (
+          <input
+            type="date"
+            className="reviews-custom-date"
+            value={customDate}
+            onChange={(e) => setCustomDate(e.target.value)}
+            onClick={(e) => e.target.showPicker?.()}
+          />
+        )}
       </div>
 
       <div className="table-container glass-card">
@@ -76,8 +142,20 @@ function Reviews() {
                   No Reviews Yet
                 </td>
               </tr>
+            ) : filteredReviews.length === 0 ? (
+              <tr>
+                <td colSpan="5" style={{ textAlign: "center", padding: "50px" }}>
+                  {filter === "custom"
+                    ? customDate
+                      ? "No reviews on that date."
+                      : "Pick a date to filter."
+                    : filter === "today"
+                    ? "No reviews today yet."
+                    : "No reviews yesterday."}
+                </td>
+              </tr>
             ) : (
-              reviews.map((item) => (
+              filteredReviews.map((item) => (
                 <tr key={item.id}>
                   <td>
                     <strong>{item.name}</strong>
