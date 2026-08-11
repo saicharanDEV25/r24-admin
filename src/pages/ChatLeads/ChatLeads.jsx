@@ -2,9 +2,24 @@ import { useEffect, useState } from "react";
 import api from "../../services/api";
 import "./ChatLeads.css";
 
+const LEAD_FILTERS = [
+  { key: "all", label: "All" },
+  { key: "today", label: "Today" },
+  { key: "yesterday", label: "Yesterday" },
+];
+
+function isSameLocalDay(a, b) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
 function ChatLeads() {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all");
 
   const loadLeads = async () => {
     try {
@@ -37,6 +52,24 @@ function ChatLeads() {
     }
   };
 
+  const filteredLeads = leads.filter((lead) => {
+    if (filter === "all") return true;
+    if (!lead.createdAt) return false;
+
+    const leadDate = new Date(lead.createdAt);
+    const now = new Date();
+
+    if (filter === "today") return isSameLocalDay(leadDate, now);
+
+    if (filter === "yesterday") {
+      const yesterday = new Date(now);
+      yesterday.setDate(now.getDate() - 1);
+      return isSameLocalDay(leadDate, yesterday);
+    }
+
+    return true;
+  });
+
   return (
     <div className="chat-leads-page">
       <div className="chat-leads-header">
@@ -45,6 +78,18 @@ function ChatLeads() {
           Leads captured by the AI chatbot on the website — name, phone and
           what they were interested in.
         </p>
+      </div>
+
+      <div className="chat-leads-filters">
+        {LEAD_FILTERS.map((f) => (
+          <button
+            key={f.key}
+            className={filter === f.key ? "active" : ""}
+            onClick={() => setFilter(f.key)}
+          >
+            {f.label}
+          </button>
+        ))}
       </div>
 
       <div className="table-container glass-card">
@@ -80,8 +125,14 @@ function ChatLeads() {
                   No Enquiries Yet
                 </td>
               </tr>
+            ) : filteredLeads.length === 0 ? (
+              <tr>
+                <td colSpan="7" style={{ textAlign: "center", padding: "50px" }}>
+                  {filter === "today" ? "No enquiries today yet." : "No enquiries yesterday."}
+                </td>
+              </tr>
             ) : (
-              leads.map((item) => (
+              filteredLeads.map((item) => (
                 <tr key={item.id}>
                   <td>
                     <strong>{item.name}</strong>

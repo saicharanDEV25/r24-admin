@@ -15,6 +15,36 @@
     font-size:15px;
 }
 
+.chat-leads-filters{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.chat-leads-filters button{
+    background:rgba(255,255,255,.05);
+    color:#94a3b8;
+    border:1px solid rgba(255,255,255,.08);
+    padding:9px 18px;
+    border-radius:30px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.chat-leads-filters button:hover{
+    color:#e5e7eb;
+    border-color:rgba(255,215,0,.3);
+}
+
+.chat-leads-filters button.active{
+    background:linear-gradient(135deg,#FFD700,#F59E0B);
+    color:#111827;
+    border-color:transparent;
+}
+
 .table-container{
     overflow:auto;
     border-radius:22px;
@@ -88,6 +118,11 @@
 
     .page-title{
         font-size:26px;
+    }
+
+    .chat-leads-filters button{
+        padding:8px 14px;
+        font-size:12.5px;
     }
 
     .chat-leads-table th,
