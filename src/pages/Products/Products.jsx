@@ -958,17 +958,11 @@ function Products() {
                   <input
                     type="text"
                     name="category"
-                    list="category-suggestions"
                     placeholder="Type a category (existing or new)"
                     value={product.category}
                     onChange={handleChange}
                     autoComplete="off"
                   />
-                  <datalist id="category-suggestions">
-                    {categories.map((cat) => (
-                      <option key={cat.id} value={cat.name} />
-                    ))}
-                  </datalist>
                 </div>
 
                 <div className="form-group">
