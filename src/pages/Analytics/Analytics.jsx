@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Eye, TrendingUp, Globe } from "lucide-react";
+import { Eye, TrendingUp, Users, Globe, Trash2 } from "lucide-react";
 import api from "../../services/api";
 import CountUp from "../../components/CountUp/CountUp";
 import "./Analytics.css";
@@ -11,11 +11,13 @@ const emptySummary = {
   uniqueVisitorsToday: 0,
   uniqueVisitorsThisWeek: 0,
   uniqueVisitorsThisMonth: 0,
+  totalVisitors: 0,
 };
 
 const cardDefs = [
   { key: "visitsToday", label: "Visits Today", icon: Eye },
   { key: "visitsThisMonth", label: "Visits This Month (30d)", icon: TrendingUp },
+  { key: "totalVisitors", label: "Total Visitors (All-Time)", icon: Users },
 ];
 
 const ONLINE_POLL_INTERVAL_MS = 10 * 1000;
@@ -75,6 +77,20 @@ function Analytics() {
     }
   };
 
+  const deleteVisitor = async (ipAddress) => {
+    if (!window.confirm(`Delete all visit history for ${ipAddress}? This cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await api.delete(`/analytics/visitors/${encodeURIComponent(ipAddress)}`);
+      setVisitorLog((prev) => prev.filter((v) => v.ipAddress !== ipAddress));
+    } catch (error) {
+      console.log(error);
+      alert("Unable to delete this visitor.");
+    }
+  };
+
   useEffect(() => {
     loadSummary();
     loadVisitorLog();
@@ -107,7 +123,7 @@ function Analytics() {
 
       {loading ? (
         <div className="analytics-cards">
-          {Array.from({ length: 2 }).map((_, i) => (
+          {Array.from({ length: 3 }).map((_, i) => (
             <div className="analytics-card glass-card" key={i}>
               <span className="skeleton" style={{ width: 50, height: 50, borderRadius: 14 }} />
               <div style={{ flex: 1 }}>
@@ -159,6 +175,7 @@ function Analytics() {
                 <th>Visits</th>
                 <th>First Seen</th>
                 <th>Last Seen</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -169,11 +186,12 @@ function Analytics() {
                     <td><span className="skeleton" style={{ width: 40, height: 14 }} /></td>
                     <td><span className="skeleton" style={{ width: "80%", height: 14 }} /></td>
                     <td><span className="skeleton" style={{ width: "80%", height: 14 }} /></td>
+                    <td><span className="skeleton" style={{ width: 60, height: 30, borderRadius: 8 }} /></td>
                   </tr>
                 ))
               ) : visitorLog.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="visitor-log-empty">
+                  <td colSpan="5" className="visitor-log-empty">
                     No visits recorded yet.
                   </td>
                 </tr>
@@ -195,6 +213,14 @@ function Analytics() {
                     </td>
                     <td>{formatDateTime(v.firstVisit)}</td>
                     <td>{formatDateTime(v.lastVisit)}</td>
+                    <td>
+                      <button
+                        className="delete-btn"
+                        onClick={() => deleteVisitor(v.ipAddress)}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
