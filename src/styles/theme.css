@@ -284,6 +284,11 @@ a{
     color:#4b5563;
 }
 
+[data-theme="light"] .card-icon{
+    background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(245,158,11,.08));
+    color:#b45309;
+}
+
 [data-theme="light"] .recent-item,
 [data-theme="light"] .empty-box{
     background:#f9fafb;
@@ -300,6 +305,14 @@ a{
 [data-theme="light"] .theme-btn,
 [data-theme="light"] .toggle-slider{
     background:#e5e7eb;
+}
+
+[data-theme="light"] .dashboard-header h1{
+    color:#111827;
+}
+
+[data-theme="light"] .dashboard-header p{
+    color:#6b7280;
 }
 
 [data-theme="light"] .dap-header h3{
