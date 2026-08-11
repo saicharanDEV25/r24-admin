@@ -35,6 +35,7 @@ const REGULAR_VISIT_THRESHOLD = 5;
 function formatDateTime(value) {
   if (!value) return "—";
   return new Date(value).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
     day: "2-digit",
     month: "short",
     hour: "2-digit",

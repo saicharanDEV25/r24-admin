@@ -16,6 +16,18 @@ function isSameLocalDay(a, b) {
   );
 }
 
+function formatDateTime(value) {
+  if (!value) return "-";
+  return new Date(value).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 function ChatLeads() {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -145,11 +157,7 @@ function ChatLeads() {
                   <td>{item.bikeModel}</td>
                   <td>{item.category}</td>
                   <td>{item.productOrService}</td>
-                  <td>
-                    {item.createdAt
-                      ? new Date(item.createdAt).toLocaleString()
-                      : "-"}
-                  </td>
+                  <td>{formatDateTime(item.createdAt)}</td>
                   <td>
                     <button
                       className="delete-btn"

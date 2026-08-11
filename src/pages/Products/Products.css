@@ -973,11 +973,19 @@ input[type="file"]{
 
         width:100%;
 
+        min-width:0;
+
+        height:48px;
+
     }
 
     .filter-bar select{
 
         width:100%;
+
+        min-width:0;
+
+        height:48px;
 
     }
 

@@ -18,6 +18,16 @@ function isSameLocalDay(a, b) {
   );
 }
 
+function formatDate(value) {
+  if (!value) return "-";
+  return new Date(value).toLocaleDateString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
 function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -176,11 +186,7 @@ function Reviews() {
 
                   <td className="review-message-cell">{item.message}</td>
 
-                  <td>
-                    {item.createdAt
-                      ? new Date(item.createdAt).toLocaleDateString()
-                      : "-"}
-                  </td>
+                  <td>{formatDate(item.createdAt)}</td>
 
                   <td>
                     <button
