@@ -301,3 +301,25 @@ a{
 [data-theme="light"] .toggle-slider{
     background:#e5e7eb;
 }
+
+[data-theme="light"] .dap-header h3{
+    color:#111827;
+}
+
+[data-theme="light"] .dap-header p,
+[data-theme="light"] .dap-stat p{
+    color:#6b7280;
+}
+
+[data-theme="light"] .dap-stat{
+    background:#f9fafb;
+    border-color:rgba(0,0,0,.08);
+}
+
+[data-theme="light"] .dap-stat h2{
+    color:#111827;
+}
+
+[data-theme="light"] .dap-stat.online h2{
+    color:#16a34a;
+}
