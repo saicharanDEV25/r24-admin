@@ -176,6 +176,7 @@ function Gallery() {
 
         </div>
 
+        <div className="table-container">
         <table className="gallery-table glass-card">
 
           <thead>
@@ -266,6 +267,7 @@ function Gallery() {
           </tbody>
 
         </table>
+        </div>
                 {showModal && (
 
           <div className="modal-overlay">

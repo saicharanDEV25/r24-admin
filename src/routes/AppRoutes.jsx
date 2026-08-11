@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Products from "../pages/Products/Products";
-import Categories from "../pages/Categories/Categories";
 import Gallery from "../pages/Gallery/Gallery";
 import Reviews from "../pages/Reviews/Reviews";
 import ChatLeads from "../pages/ChatLeads/ChatLeads";
@@ -32,17 +31,6 @@ export default function AppRoutes() {
             <ProtectedRoute>
               <Layout>
                 <Dashboard />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/categories"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Categories />
               </Layout>
             </ProtectedRoute>
           }

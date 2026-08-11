@@ -192,3 +192,25 @@
     color:#ffffff;
     transform:translateY(-2px);
 }
+
+@media (max-width:768px){
+
+    .page-title{
+        font-size:26px;
+    }
+
+    .messages-grid{
+        grid-template-columns:1fr;
+    }
+
+    .message-actions{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .message-actions a,
+    .message-actions button{
+        text-align:center;
+    }
+
+}

@@ -180,6 +180,14 @@
     transform:translateX(20px);
 }
 
+@media (max-width:768px){
+
+.page-title{
+    font-size:26px;
+}
+
+}
+
 @media (max-width:576px){
 
 .settings-grid{

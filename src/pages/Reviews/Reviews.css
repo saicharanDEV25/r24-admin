@@ -86,6 +86,16 @@
 
 @media (max-width:768px){
 
+.page-title{
+    font-size:26px;
+}
+
+.reviews-table th,
+.reviews-table td{
+    padding:12px;
+    font-size:13px;
+}
+
 .review-message-cell{
     max-width:200px;
 }

@@ -139,3 +139,26 @@
     color:#ffffff;
     transform:translateY(-2px);
 }
+
+@media (max-width:768px){
+
+    .page-title{
+        font-size:26px;
+    }
+
+    .bookings-filter{
+        gap:8px;
+    }
+
+    .bookings-filter button{
+        padding:8px 14px;
+        font-size:12px;
+    }
+
+    .bookings-table th,
+    .bookings-table td{
+        padding:12px;
+        font-size:13px;
+    }
+
+}

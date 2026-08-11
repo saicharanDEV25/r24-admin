@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import {
   LayoutDashboard,
-  Tags,
   Package,
   Images,
   Star,
@@ -25,11 +24,6 @@ const menus = [
     title: "Dashboard",
     icon: <LayoutDashboard size={20} />,
     path: "/dashboard",
-  },
-  {
-    title: "Categories",
-    icon: <Tags size={20} />,
-    path: "/categories",
   },
   {
     title: "Products",

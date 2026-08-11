@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Eye, Users, TrendingUp } from "lucide-react";
+import { Eye, Users, TrendingUp, Globe } from "lucide-react";
 import api from "../../services/api";
 import CountUp from "../../components/CountUp/CountUp";
 import "./Analytics.css";
@@ -11,7 +11,6 @@ const emptySummary = {
   uniqueVisitorsToday: 0,
   uniqueVisitorsThisWeek: 0,
   uniqueVisitorsThisMonth: 0,
-  last7Days: [],
 };
 
 const cardDefs = [
@@ -25,10 +24,27 @@ const cardDefs = [
 
 const ONLINE_POLL_INTERVAL_MS = 10 * 1000;
 
+// A visitor (by IP) with this many total visits or more gets called out as
+// a "Regular" instead of just a one-off hit.
+const REGULAR_VISIT_THRESHOLD = 5;
+
+function formatDateTime(value) {
+  if (!value) return "—";
+  return new Date(value).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 function Analytics() {
   const [summary, setSummary] = useState(emptySummary);
   const [loading, setLoading] = useState(true);
   const [onlineCount, setOnlineCount] = useState(0);
+
+  const [visitorLog, setVisitorLog] = useState([]);
+  const [visitorLogLoading, setVisitorLogLoading] = useState(true);
 
   const loadSummary = async () => {
     try {
@@ -51,8 +67,21 @@ function Analytics() {
     }
   };
 
+  const loadVisitorLog = async () => {
+    try {
+      setVisitorLogLoading(true);
+      const response = await api.get("/analytics/visitors");
+      setVisitorLog(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setVisitorLogLoading(false);
+    }
+  };
+
   useEffect(() => {
     loadSummary();
+    loadVisitorLog();
   }, []);
 
   useEffect(() => {
@@ -60,13 +89,6 @@ function Analytics() {
     const interval = setInterval(loadOnlineCount, ONLINE_POLL_INTERVAL_MS);
     return () => clearInterval(interval);
   }, []);
-
-  const maxVisits = Math.max(1, ...summary.last7Days.map((d) => d.visits));
-
-  const formatDay = (dateStr) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("en-IN", { weekday: "short" });
-  };
 
   return (
     <div className="analytics-page">
@@ -88,86 +110,102 @@ function Analytics() {
       </div>
 
       {loading ? (
-        <>
-          <div className="analytics-cards">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div className="analytics-card glass-card" key={i}>
-                <span className="skeleton" style={{ width: 50, height: 50, borderRadius: 14 }} />
-                <div style={{ flex: 1 }}>
-                  <span className="skeleton" style={{ width: "60%", height: 22, marginBottom: 8 }} />
-                  <span className="skeleton" style={{ width: "80%", height: 12 }} />
+        <div className="analytics-cards">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div className="analytics-card glass-card" key={i}>
+              <span className="skeleton" style={{ width: 50, height: 50, borderRadius: 14 }} />
+              <div style={{ flex: 1 }}>
+                <span className="skeleton" style={{ width: "60%", height: 22, marginBottom: 8 }} />
+                <span className="skeleton" style={{ width: "80%", height: 12 }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="analytics-cards">
+          {cardDefs.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <div
+                className="analytics-card glass-card stagger-in"
+                key={card.key}
+                style={{ animationDelay: `${index * 0.06}s` }}
+              >
+                <div className="analytics-card-icon">
+                  <Icon size={26} />
+                </div>
+                <div>
+                  <h2>
+                    <CountUp end={summary[card.key]} duration={1.5} />
+                  </h2>
+                  <span>{card.label}</span>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <div className="analytics-chart-card glass-card">
-            <span className="skeleton" style={{ width: 120, height: 18, marginBottom: 24 }} />
-            <div className="analytics-chart">
-              {Array.from({ length: 7 }).map((_, i) => (
-                <div className="analytics-bar-col" key={i}>
-                  <span
-                    className="skeleton"
-                    style={{ width: "100%", maxWidth: 36, height: `${40 + (i % 3) * 30}%` }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="analytics-cards">
-            {cardDefs.map((card, index) => {
-              const Icon = card.icon;
-              return (
-                <div
-                  className="analytics-card glass-card stagger-in"
-                  key={card.key}
-                  style={{ animationDelay: `${index * 0.06}s` }}
-                >
-                  <div className="analytics-card-icon">
-                    <Icon size={26} />
-                  </div>
-                  <div>
-                    <h2>
-                      <CountUp end={summary[card.key]} duration={1.5} />
-                    </h2>
-                    <span>{card.label}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="analytics-chart-card glass-card">
-            <h3>Last 7 Days</h3>
-
-            <div className="analytics-chart">
-              {summary.last7Days.map((day) => (
-                <div className="analytics-bar-col" key={day.date}>
-                  <span className="analytics-bar-value">{day.visits}</span>
-                  <div className="analytics-bar-track">
-                    <div
-                      className="analytics-bar-fill"
-                      style={{
-                        height: `${(day.visits / maxVisits) * 100}%`,
-                      }}
-                    />
-                  </div>
-                  <span className="analytics-bar-label">
-                    {formatDay(day.date)}
-                  </span>
-                </div>
-              ))}
-
-              {summary.last7Days.length === 0 && (
-                <p className="analytics-empty">No visits recorded yet.</p>
-              )}
-            </div>
-          </div>
-        </>
+            );
+          })}
+        </div>
       )}
+
+      <div className="analytics-visitor-log glass-card">
+        <div className="analytics-visitor-log-header">
+          <Globe size={20} />
+          <div>
+            <h3>Visitor Log</h3>
+            <p>Every IP that has visited, and how many times — spot your regulars.</p>
+          </div>
+        </div>
+
+        <div className="table-container">
+          <table className="visitor-log-table">
+            <thead>
+              <tr>
+                <th>IP Address</th>
+                <th>Visits</th>
+                <th>First Seen</th>
+                <th>Last Seen</th>
+              </tr>
+            </thead>
+            <tbody>
+              {visitorLogLoading ? (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <tr key={i}>
+                    <td><span className="skeleton" style={{ width: "70%", height: 14 }} /></td>
+                    <td><span className="skeleton" style={{ width: 40, height: 14 }} /></td>
+                    <td><span className="skeleton" style={{ width: "80%", height: 14 }} /></td>
+                    <td><span className="skeleton" style={{ width: "80%", height: 14 }} /></td>
+                  </tr>
+                ))
+              ) : visitorLog.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="visitor-log-empty">
+                    No visits recorded yet.
+                  </td>
+                </tr>
+              ) : (
+                visitorLog.map((v) => (
+                  <tr key={v.ipAddress}>
+                    <td>{v.ipAddress}</td>
+                    <td>
+                      <span
+                        className={
+                          v.visitCount >= REGULAR_VISIT_THRESHOLD
+                            ? "visitor-count-badge regular"
+                            : "visitor-count-badge"
+                        }
+                      >
+                        {v.visitCount}
+                        {v.visitCount >= REGULAR_VISIT_THRESHOLD ? " · Regular" : ""}
+                      </span>
+                    </td>
+                    <td>{formatDateTime(v.firstVisit)}</td>
+                    <td>{formatDateTime(v.lastVisit)}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -45,8 +45,6 @@ function Navbar({ onMenuClick }) {
 
     "/products": "Products",
 
-    "/categories": "Categories",
-
     "/gallery": "Gallery",
 
     "/reviews": "Reviews",

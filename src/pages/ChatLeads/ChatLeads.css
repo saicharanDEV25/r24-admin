@@ -83,3 +83,17 @@
     color:#ffffff;
     transform:translateY(-2px);
 }
+
+@media (max-width:768px){
+
+    .page-title{
+        font-size:26px;
+    }
+
+    .chat-leads-table th,
+    .chat-leads-table td{
+        padding:12px;
+        font-size:13px;
+    }
+
+}
