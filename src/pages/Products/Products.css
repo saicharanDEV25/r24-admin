@@ -977,6 +977,10 @@ input[type="file"]{
 
         height:48px;
 
+        background:#1a2029;
+
+        border:1px solid rgba(255,215,0,.16);
+
     }
 
     .filter-bar select{

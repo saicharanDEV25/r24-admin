@@ -5,6 +5,12 @@
     overflow:hidden;
 }
 
+@supports (height: 100dvh){
+    .login-container{
+        height:100dvh;
+    }
+}
+
 /* ---------- Left: video showcase ---------- */
 
 .login-showcase{
@@ -279,6 +285,12 @@
 
 @media (max-width:900px){
 
+.login-container{
+    height:auto;
+    min-height:100vh;
+    overflow-y:auto;
+}
+
 .login-showcase{
     display:none;
 }
@@ -286,8 +298,22 @@
 .login-form-panel{
     min-width:0;
     flex:1;
+    min-height:100vh;
+    padding:16px;
 }
 
+}
+
+@supports (height: 100dvh){
+    @media (max-width:900px){
+        .login-container{
+            min-height:100dvh;
+        }
+
+        .login-form-panel{
+            min-height:100dvh;
+        }
+    }
 }
 
 @media (max-width:480px){
@@ -295,6 +321,14 @@
 .login-box{
     padding:34px 24px;
     border-radius:20px;
+}
+
+.login-field{
+    padding:12px 14px;
+}
+
+.login-submit-btn{
+    height:48px;
 }
 
 }
