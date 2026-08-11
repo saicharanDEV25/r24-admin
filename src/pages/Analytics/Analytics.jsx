@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Eye, Users, TrendingUp, Globe } from "lucide-react";
+import { Eye, TrendingUp, Globe } from "lucide-react";
 import api from "../../services/api";
 import CountUp from "../../components/CountUp/CountUp";
 import "./Analytics.css";
@@ -15,11 +15,7 @@ const emptySummary = {
 
 const cardDefs = [
   { key: "visitsToday", label: "Visits Today", icon: Eye },
-  { key: "uniqueVisitorsToday", label: "Unique Visitors Today", icon: Users },
-  { key: "visitsThisWeek", label: "Visits This Week", icon: TrendingUp },
-  { key: "uniqueVisitorsThisWeek", label: "Unique Visitors This Week", icon: Users },
-  { key: "visitsThisMonth", label: "Visits This Month (30d)", icon: Eye },
-  { key: "uniqueVisitorsThisMonth", label: "Unique Visitors This Month", icon: Users },
+  { key: "visitsThisMonth", label: "Visits This Month (30d)", icon: TrendingUp },
 ];
 
 const ONLINE_POLL_INTERVAL_MS = 10 * 1000;
@@ -111,7 +107,7 @@ function Analytics() {
 
       {loading ? (
         <div className="analytics-cards">
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: 2 }).map((_, i) => (
             <div className="analytics-card glass-card" key={i}>
               <span className="skeleton" style={{ width: 50, height: 50, borderRadius: 14 }} />
               <div style={{ flex: 1 }}>
