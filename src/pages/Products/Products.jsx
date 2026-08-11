@@ -50,15 +50,9 @@ function Products() {
 
   const [products, setProducts] = useState([]);
 
-  const [categories, setCategories] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
-
-  const [categoryFilter, setCategoryFilter] = useState("");
-
-  const [statusFilter, setStatusFilter] = useState("all");
 
   // Folder-style browsing: null viewBrand = brand folders at the root,
   // null viewModel (with a brand chosen) = model folders inside that
@@ -81,8 +75,6 @@ function Products() {
 
     loadProducts();
 
-    loadCategories();
-
   }, []);
 
   /* Load Products */
@@ -104,24 +96,6 @@ function Products() {
     } finally {
 
       setLoading(false);
-
-    }
-
-  };
-
-  /* Load Categories */
-
-  const loadCategories = async () => {
-
-    try {
-
-      const response = await api.get("/categories");
-
-      setCategories(response.data);
-
-    } catch (error) {
-
-      console.log(error);
 
     }
 
@@ -363,26 +337,22 @@ function Products() {
     setViewBrand(b);
     setViewModel(null);
     setSearch("");
-    setCategoryFilter("");
   };
 
   const openModelFolder = (m) => {
     setViewModel(m);
     setSearch("");
-    setCategoryFilter("");
   };
 
   const goToRoot = () => {
     setViewBrand(null);
     setViewModel(null);
     setSearch("");
-    setCategoryFilter("");
   };
 
   const goToBrandLevel = () => {
     setViewModel(null);
     setSearch("");
-    setCategoryFilter("");
   };
 
   const brandFolderCounts = { Unassigned: 0 };
@@ -419,7 +389,7 @@ function Products() {
   /* Filter Products */
 
   // Scope to whichever folder is currently open before applying the
-  // search/category/status filters below.
+  // search filter below.
   let scopedProducts = products;
 
   if (viewBrand) {
@@ -434,31 +404,9 @@ function Products() {
     }
   }
 
-  const filteredProducts = scopedProducts.filter((item) => {
-
-    const matchSearch = item.name
-      ?.toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchCategory =
-      categoryFilter === ""
-        ? true
-        : item.category?.id === Number(categoryFilter);
-
-    const matchStatus =
-      statusFilter === "all"
-        ? true
-        : statusFilter === "active"
-        ? item.active
-        : !item.active;
-
-    return (
-      matchSearch &&
-      matchCategory &&
-      matchStatus
-    );
-
-  });
+  const filteredProducts = scopedProducts.filter((item) =>
+    item.name?.toLowerCase().includes(search.toLowerCase())
+  );
 
   /* Dashboard Stats */
 
@@ -599,43 +547,6 @@ function Products() {
           />
 
         </div>
-
-        {!showBrandFolders && !showModelFolders && (
-          <>
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-            >
-
-              <option value="">All Categories</option>
-
-              {categories.map((cat) => (
-
-                <option
-                  key={cat.id}
-                  value={cat.id}
-                >
-                  {cat.name}
-                </option>
-
-              ))}
-
-            </select>
-
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-
-              <option value="all">All Status</option>
-
-              <option value="active">Active</option>
-
-              <option value="inactive">Inactive</option>
-
-            </select>
-          </>
-        )}
 
       </div>
 

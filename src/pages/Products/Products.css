@@ -365,34 +365,6 @@
 
 }
 
-.filter-bar select{
-
-    height:52px;
-
-    min-width:190px;
-
-    padding:0 16px;
-
-    border-radius:14px;
-
-    border:1px solid rgba(255,255,255,.06);
-
-    background:#161b22;
-
-    color:#ffffff;
-
-    cursor:pointer;
-
-    transition:.35s;
-
-}
-
-.filter-bar select:hover{
-
-    border-color:#FFD700;
-
-}
-
 /* Table */
 
 .table-container{
@@ -980,16 +952,6 @@ input[type="file"]{
         background:#1a2029;
 
         border:1px solid rgba(255,215,0,.16);
-
-    }
-
-    .filter-bar select{
-
-        width:100%;
-
-        min-width:0;
-
-        height:48px;
 
     }
 
