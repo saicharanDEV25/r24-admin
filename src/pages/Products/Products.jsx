@@ -251,7 +251,7 @@ function Products() {
 
         category: {
 
-          id: Number(product.category),
+          name: product.category.trim(),
 
         },
 
@@ -311,7 +311,7 @@ function Products() {
 
       model: item.model || "",
 
-      category: item.category?.id || "",
+      category: item.category?.name || "",
 
       price: item.price,
 
@@ -955,28 +955,20 @@ function Products() {
 
                 <div className="form-group">
                   <label>Category</label>
-                  <select
+                  <input
+                    type="text"
                     name="category"
+                    list="category-suggestions"
+                    placeholder="Type a category (existing or new)"
                     value={product.category}
                     onChange={handleChange}
-                  >
-
-                    <option value="">
-                      Select Category
-                    </option>
-
+                    autoComplete="off"
+                  />
+                  <datalist id="category-suggestions">
                     {categories.map((cat) => (
-
-                      <option
-                        key={cat.id}
-                        value={cat.id}
-                      >
-                        {cat.name}
-                      </option>
-
+                      <option key={cat.id} value={cat.name} />
                     ))}
-
-                  </select>
+                  </datalist>
                 </div>
 
                 <div className="form-group">
