@@ -139,6 +139,36 @@
     font-size:13px;
 }
 
+.visitor-log-filters{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.visitor-log-filters button{
+    background:rgba(255,255,255,.05);
+    color:#94a3b8;
+    border:1px solid rgba(255,255,255,.08);
+    padding:9px 18px;
+    border-radius:30px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.visitor-log-filters button:hover{
+    color:#e5e7eb;
+    border-color:rgba(255,215,0,.3);
+}
+
+.visitor-log-filters button.active{
+    background:linear-gradient(135deg,#FFD700,#F59E0B);
+    color:#111827;
+    border-color:transparent;
+}
+
 .table-container{
     overflow-x:auto;
     border-radius:16px;

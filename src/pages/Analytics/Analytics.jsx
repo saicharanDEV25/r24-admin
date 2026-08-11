@@ -22,6 +22,12 @@ const cardDefs = [
 
 const ONLINE_POLL_INTERVAL_MS = 10 * 1000;
 
+const VISITOR_LOG_FILTERS = [
+  { key: "all", label: "All Time" },
+  { key: "today", label: "Today" },
+  { key: "yesterday", label: "Yesterday" },
+];
+
 // A visitor (by IP) with this many total visits or more gets called out as
 // a "Regular" instead of just a one-off hit.
 const REGULAR_VISIT_THRESHOLD = 5;
@@ -43,6 +49,7 @@ function Analytics() {
 
   const [visitorLog, setVisitorLog] = useState([]);
   const [visitorLogLoading, setVisitorLogLoading] = useState(true);
+  const [visitorRange, setVisitorRange] = useState("all");
 
   const loadSummary = async () => {
     try {
@@ -65,10 +72,12 @@ function Analytics() {
     }
   };
 
-  const loadVisitorLog = async () => {
+  const loadVisitorLog = async (range) => {
     try {
       setVisitorLogLoading(true);
-      const response = await api.get("/analytics/visitors");
+      const response = await api.get("/analytics/visitors", {
+        params: range && range !== "all" ? { range } : {},
+      });
       setVisitorLog(response.data);
     } catch (error) {
       console.log(error);
@@ -93,8 +102,13 @@ function Analytics() {
 
   useEffect(() => {
     loadSummary();
-    loadVisitorLog();
+    loadVisitorLog("all");
   }, []);
+
+  const handleVisitorRangeChange = (range) => {
+    setVisitorRange(range);
+    loadVisitorLog(range);
+  };
 
   useEffect(() => {
     loadOnlineCount();
@@ -167,6 +181,18 @@ function Analytics() {
           </div>
         </div>
 
+        <div className="visitor-log-filters">
+          {VISITOR_LOG_FILTERS.map((f) => (
+            <button
+              key={f.key}
+              className={visitorRange === f.key ? "active" : ""}
+              onClick={() => handleVisitorRangeChange(f.key)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
         <div className="table-container">
           <table className="visitor-log-table">
             <thead>
@@ -192,7 +218,11 @@ function Analytics() {
               ) : visitorLog.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="visitor-log-empty">
-                    No visits recorded yet.
+                    {visitorRange === "today"
+                      ? "No visitors today yet."
+                      : visitorRange === "yesterday"
+                      ? "No visitors yesterday."
+                      : "No visits recorded yet."}
                   </td>
                 </tr>
               ) : (
