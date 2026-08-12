@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./LoadingScreen.css";
 
 const STEPS = [
@@ -28,27 +29,47 @@ function labelFor(value) {
 }
 
 export default function LoadingScreen() {
-  const [alreadyShown] = useState(
-    () => sessionStorage.getItem("adminSplashShown") === "1"
-  );
+  const location = useLocation();
+  const isFirstRender = useRef(true);
 
-  const [progress, setProgress] = useState(alreadyShown ? 100 : 0);
-  const [finished, setFinished] = useState(alreadyShown);
-  const [coreFading, setCoreFading] = useState(alreadyShown);
-  const [overlayFading, setOverlayFading] = useState(alreadyShown);
-  const [hidden, setHidden] = useState(alreadyShown);
+  const [visible, setVisible] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [coreFading, setCoreFading] = useState(false);
+  const [overlayFading, setOverlayFading] = useState(false);
 
   const intervalRef = useRef(null);
+  const timeoutsRef = useRef([]);
 
-  const finish = () => {
-    setFinished(true);
-    setTimeout(() => setCoreFading(true), 450);
-    setTimeout(() => setOverlayFading(true), 700);
-    setTimeout(() => setHidden(true), 1400);
+  const schedule = (fn, delay) => {
+    const id = setTimeout(fn, delay);
+    timeoutsRef.current.push(id);
   };
 
+  const clearAllTimers = () => {
+    clearInterval(intervalRef.current);
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+  };
+
+  const finish = () => {
+    clearInterval(intervalRef.current);
+    setFinished(true);
+    schedule(() => setCoreFading(true), 450);
+    schedule(() => setOverlayFading(true), 700);
+    schedule(() => setVisible(false), 1400);
+  };
+
+  // Initial page load — once per tab session, tied to the real browser
+  // load event so a fast load finishes fast and a slow one keeps the
+  // animation up until things are actually ready.
   useEffect(() => {
-    if (alreadyShown) return;
+    const alreadyShown = sessionStorage.getItem("adminSplashShown") === "1";
+
+    if (alreadyShown) {
+      setVisible(false);
+      return;
+    }
 
     sessionStorage.setItem("adminSplashShown", "1");
 
@@ -57,29 +78,56 @@ export default function LoadingScreen() {
     }, 260);
 
     const complete = () => {
-      clearInterval(intervalRef.current);
-      clearTimeout(failsafeTimer);
       setProgress(100);
       finish();
     };
 
-    const failsafeTimer = setTimeout(complete, FAILSAFE_MS);
+    schedule(complete, FAILSAFE_MS);
 
     if (document.readyState === "complete") {
-      setTimeout(complete, 400);
+      schedule(complete, 400);
     } else {
       window.addEventListener("load", complete);
     }
 
     return () => {
-      clearInterval(intervalRef.current);
-      clearTimeout(failsafeTimer);
+      clearAllTimers();
       window.removeEventListener("load", complete);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (hidden) return null;
+  // Route change — a quicker replay on every navigation after the first
+  // (the first render is handled by the effect above instead).
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    clearAllTimers();
+    setProgress(0);
+    setFinished(false);
+    setCoreFading(false);
+    setOverlayFading(false);
+    setVisible(true);
+
+    intervalRef.current = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + Math.random() * 22 + 14;
+        if (next >= 100) {
+          finish();
+          return 100;
+        }
+        return next;
+      });
+    }, 110);
+
+    return () => clearAllTimers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
+  if (!visible) return null;
 
   const offset = RING_CIRCUMFERENCE * (1 - progress / 100);
 
