@@ -26,7 +26,16 @@ function Login() {
 
     } catch (error) {
       console.log(error);
-      setError("Invalid username or password.");
+
+      if (error.response?.status === 401) {
+        setError("Invalid username or password.");
+      } else if (error.response?.status === 429) {
+        setError("Too many attempts. Please wait a few minutes and try again.");
+      } else if (!error.response) {
+        setError("Can't reach the server. Check your internet connection and try again.");
+      } else {
+        setError(error.response?.data?.message || "Something went wrong. Please try again.");
+      }
     } finally {
       setSubmitting(false);
     }
