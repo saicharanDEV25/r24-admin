@@ -28,8 +28,7 @@ const VISITOR_LOG_FILTERS = [
   { key: "yesterday", label: "Yesterday" },
 ];
 
-// A visitor (by IP) with this many total visits or more gets called out as
-// a "Regular" instead of just a one-off hit.
+// IPs with this many total visits or more get tagged "Regular"
 const REGULAR_VISIT_THRESHOLD = 5;
 
 function formatDateTime(value) {

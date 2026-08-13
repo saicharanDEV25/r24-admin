@@ -18,8 +18,6 @@ import "./Products.css";
 import api from "../../services/api";
 import { BIKE_BRANDS } from "../../constants/bikes";
 
-/* Initial Product */
-
 const initialProduct = {
 
   id: null,
@@ -46,19 +44,14 @@ const initialProduct = {
 
 function Products() {
 
-  /* ---------------- STATES ---------------- */
-
   const [products, setProducts] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
 
-  // Folder-style browsing: null viewBrand = brand folders at the root,
-  // null viewModel (with a brand chosen) = model folders inside that
-  // brand. Typing a search term skips straight to the table, scoped to
-  // whichever folder you were standing in (root search reaches every
-  // product).
+  // null viewBrand = brand folders at root, null viewModel = model folders inside a brand;
+  // typing a search skips both and goes straight to the table, scoped to the current folder
   const [viewBrand, setViewBrand] = useState(null);
 
   const [viewModel, setViewModel] = useState(null);
@@ -69,15 +62,11 @@ function Products() {
 
   const [product, setProduct] = useState(initialProduct);
 
-  /* ---------------- EFFECT ---------------- */
-
   useEffect(() => {
 
     loadProducts();
 
   }, []);
-
-  /* Load Products */
 
   const loadProducts = async () => {
 
@@ -101,8 +90,6 @@ function Products() {
 
   };
 
-  /* Handle Input */
-
   const handleChange = (e) => {
 
     const { name, value, type, checked } = e.target;
@@ -115,8 +102,7 @@ function Products() {
         ? checked
         : value,
 
-      // Model list depends on brand — changing brand invalidates
-      // whatever model was picked before.
+      // changing brand resets model since the model list depends on it
       ...(name === "brand" ? { model: "" } : {}),
 
     }));
@@ -126,15 +112,11 @@ function Products() {
   const brandModels =
     BIKE_BRANDS.find((b) => b.brand === product.brand)?.models || [];
 
-  /* Image Select */
-
   const handleFileChange = (e) => {
 
     setSelectedFile(e.target.files[0]);
 
   };
-
-  /* Image Upload */
 
   const uploadImage = async () => {
 
@@ -159,12 +141,9 @@ function Products() {
 
   };
 
-  /* Open Add Modal */
-
   const openAddModal = () => {
 
-    // Adding a product while browsing inside a brand/model folder should
-    // drop the new item into that same folder instead of starting blank.
+    // pre-fill brand/model from the folder you're browsing in
     setProduct({
       ...initialProduct,
       brand: viewBrand || "",
@@ -177,8 +156,6 @@ function Products() {
 
   };
 
-  /* Close Modal */
-
   const closeModal = () => {
 
     setShowModal(false);
@@ -189,14 +166,14 @@ function Products() {
 
   };
 
-  /* Save Product */
-
   const saveProduct = async () => {
 
     if (
       !product.name ||
       !product.category ||
-      !product.price
+      product.price === "" ||
+      product.price === null ||
+      product.price === undefined
     ) {
 
       alert("Please fill all required fields.");
@@ -271,8 +248,6 @@ function Products() {
 
   };
 
-  /* Edit Product */
-
   const editProduct = (item) => {
 
     setProduct({
@@ -305,8 +280,6 @@ function Products() {
 
   };
 
-  /* Delete Product */
-
   const deleteProduct = async (id) => {
 
     const ok = window.confirm(
@@ -330,8 +303,6 @@ function Products() {
     }
 
   };
-
-  /* Folder Navigation */
 
   const openBrandFolder = (b) => {
     setViewBrand(b);
@@ -369,9 +340,7 @@ function Products() {
   const viewBrandModels =
     BIKE_BRANDS.find((b) => b.brand === viewBrand)?.models || [];
 
-  // A product with no model set fits every model of its brand, so it
-  // counts (and later shows up) under each model folder — same rule the
-  // customer-facing site uses.
+  // no model set = fits every model of its brand (same rule as the storefront)
   const modelFolderCounts = {};
   viewBrandModels.forEach((m) => {
     modelFolderCounts[m] = products.filter(
@@ -386,10 +355,6 @@ function Products() {
   const showBrandFolders = !viewBrand && !searching;
   const showModelFolders = viewBrand && !viewModel && hasModelLevel && !searching;
 
-  /* Filter Products */
-
-  // Scope to whichever folder is currently open before applying the
-  // search filter below.
   let scopedProducts = products;
 
   if (viewBrand) {
@@ -407,8 +372,6 @@ function Products() {
   const filteredProducts = scopedProducts.filter((item) =>
     item.name?.toLowerCase().includes(search.toLowerCase())
   );
-
-  /* Dashboard Stats */
 
   const totalProducts = products.length;
 
@@ -495,8 +458,6 @@ function Products() {
 
       </div>
 
-      {/* Folder Breadcrumb */}
-
       <div className="folder-breadcrumb">
 
         <button
@@ -527,8 +488,6 @@ function Products() {
 
       </div>
 
-      {/* Filters */}
-
       <div className="filter-bar">
 
         <div className="search-wrapper">
@@ -549,8 +508,6 @@ function Products() {
         </div>
 
       </div>
-
-      {/* Brand Folders */}
 
       {showBrandFolders && (
         <div className="folder-grid">
@@ -574,8 +531,6 @@ function Products() {
         </div>
       )}
 
-      {/* Model Folders */}
-
       {showModelFolders && (
         <div className="folder-grid">
 
@@ -597,8 +552,6 @@ function Products() {
 
         </div>
       )}
-
-      {/* Products Table */}
 
       {!showBrandFolders && !showModelFolders && (
 

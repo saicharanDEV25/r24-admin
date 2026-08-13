@@ -89,8 +89,7 @@ function Navbar({ onMenuClick }) {
 
     <header className="navbar">
 
-      {/* Left Section Starts */}
-            <div className="navbar-left">
+      <div className="navbar-left">
 
         <button
           className="menu-btn"
@@ -119,8 +118,6 @@ function Navbar({ onMenuClick }) {
 
       </div>
 
-      {/* Center Section Starts */}
-
       <div className="navbar-center">
 
         <div className="search-box">
@@ -138,8 +135,7 @@ function Navbar({ onMenuClick }) {
 
       </div>
 
-      {/* Right Section Starts */}
-            <div className="navbar-right">
+      <div className="navbar-right">
 
         <div className="time-box">
 

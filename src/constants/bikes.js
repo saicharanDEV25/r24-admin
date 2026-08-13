@@ -1,5 +1,4 @@
-// Mirrors frontend/src/constants/bikes.js — kept in sync manually since
-// the two apps don't share a package.
+// mirrors frontend/src/constants/bikes.js, keep in sync manually (no shared package)
 export const BIKE_BRANDS = [
   {
     brand: "KTM",

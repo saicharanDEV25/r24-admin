@@ -110,8 +110,6 @@ function Sidebar({ closeSidebar }) {
 
     <aside className="sidebar glass-card">
 
-      {/* Logo */}
-
       <div className="sidebar-logo">
 
         <div className="logo-circle">
@@ -130,8 +128,7 @@ function Sidebar({ closeSidebar }) {
 
       </div>
 
-      {/* Navigation Starts Here */}
-            <div className="sidebar-menu">
+      <div className="sidebar-menu">
 
         {menus.map((item) => (
 
@@ -170,8 +167,7 @@ function Sidebar({ closeSidebar }) {
 
       </div>
 
-      {/* Bottom Section */}
-            <div className="sidebar-bottom">
+      <div className="sidebar-bottom">
 
         <div className="admin-card glass-card">
 

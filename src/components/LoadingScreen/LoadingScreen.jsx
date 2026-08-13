@@ -12,12 +12,10 @@ const STEPS = [
 
 const RING_CIRCUMFERENCE = 578;
 
-// Progress climbs on its own but holds here until the page actually
-// finishes loading — so it never claims "done" before it's true.
+// holds here until the real load event fires, so it never claims done early
 const SOFT_CAP = 90;
 
-// If the browser's load event never fires for some reason, don't trap
-// the admin behind the screen forever.
+// failsafe in case the load event never fires
 const FAILSAFE_MS = 8000;
 
 function labelFor(value) {
@@ -60,9 +58,7 @@ export default function LoadingScreen() {
     schedule(() => setVisible(false), 1400);
   };
 
-  // Initial page load — once per tab session, tied to the real browser
-  // load event so a fast load finishes fast and a slow one keeps the
-  // animation up until things are actually ready.
+  // once per tab session, tied to the real load event so fast loads finish fast and slow ones wait
   useEffect(() => {
     const alreadyShown = sessionStorage.getItem("adminSplashShown") === "1";
 
@@ -97,8 +93,7 @@ export default function LoadingScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Route change — a quicker replay on every navigation after the first
-  // (the first render is handled by the effect above instead).
+  // quicker replay on every nav after the first (first load is handled above)
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;

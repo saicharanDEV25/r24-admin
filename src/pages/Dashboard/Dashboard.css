@@ -215,7 +215,7 @@
     }
 }
 
-/* Mobile — stays 2-up (side by side) instead of stacking one per row */
+/* Mobile: stays 2-up instead of stacking to one column */
 
 @media (max-width:768px){
     .dashboard-header h1{
