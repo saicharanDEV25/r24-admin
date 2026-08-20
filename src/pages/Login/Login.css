@@ -123,11 +123,11 @@
 .login-box{
     width:100%;
     max-width:400px;
-    padding:44px 36px;
+    padding:clamp(28px, 5vw, 44px) clamp(20px, 4vw, 36px);
     border-radius:24px;
     display:flex;
     flex-direction:column;
-    gap:18px;
+    gap:clamp(14px, 2.5vw, 18px);
     position:relative;
     z-index:1;
     animation:login-box-in .45s ease;
@@ -180,7 +180,7 @@
 
 .login-logo h1{
     color:#ffffff;
-    font-size:22px;
+    font-size:clamp(19px, 4vw, 22px);
     font-weight:800;
     margin-bottom:4px;
 }
@@ -319,7 +319,6 @@
 @media (max-width:480px){
 
 .login-box{
-    padding:34px 24px;
     border-radius:20px;
 }
 
@@ -329,6 +328,52 @@
 
 .login-submit-btn{
     height:48px;
+}
+
+}
+
+@media (max-width:360px){
+
+.login-form-panel{
+    padding:12px;
+}
+
+.login-box{
+    border-radius:16px;
+    max-width:100%;
+}
+
+.login-logo-circle{
+    width:52px;
+    height:52px;
+    border-radius:14px;
+}
+
+}
+
+/* Short/landscape viewports: the split-screen showcase is already hidden below 900px,
+   but a landscape phone can still be short enough that the box needs to shrink further. */
+@media (max-height:560px) and (max-width:900px){
+
+.login-form-panel{
+    align-items:flex-start;
+    padding-top:24px;
+    padding-bottom:24px;
+}
+
+.login-logo{
+    margin-bottom:2px;
+}
+
+.login-logo-circle{
+    width:44px;
+    height:44px;
+    margin-bottom:8px;
+}
+
+.login-box{
+    gap:12px;
+    padding:20px 24px;
 }
 
 }

@@ -31,6 +31,9 @@ function Login() {
         setError("Invalid username or password.");
       } else if (error.response?.status === 429) {
         setError("Too many attempts. Please wait a few minutes and try again.");
+      } else if (error.code === "ECONNABORTED") {
+        // Free-tier Render instance spins down after idling; the first request after that can take 30-50s to wake it.
+        setError("Server is waking up (free-tier cold start) — please wait a moment and try again.");
       } else if (!error.response) {
         setError("Can't reach the server. Check your internet connection and try again.");
       } else {
